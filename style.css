@@ -1,18 +1,21 @@
 body {
   font-family: 'Times New Roman', Times, serif;
   background-color: rgb(150, 195, 187);
-  height: 950px;
+  height: 960px;
   width: 640px;
+  margin: 0 auto; /* center horizontally */
+  position: relative; /* for positioning child elements */
 }
 
 /* Scrollable content area */
 .scrollable-content {
-  position: fixed;
+  position: relative;
   height: calc(100vh - 60px - 70px); /* viewport minus header minus nav height */
   width: 100%;
+  margin: 0 auto;
   overflow-y: auto;  /* vertical scroll only */
   overflow-x: hidden; /* no horizontal scroll */
-  padding: 10px;
+  padding: 10px 0px;
   box-sizing: border-box;
   scrollbar-color: red;
 }
@@ -102,7 +105,7 @@ body {
   text-align: center;   
   width: 100%;   
   display: block; 
-  margin-left: 150px;
+  margin: 10 auto;
 }
 
 .line2 {
@@ -115,10 +118,42 @@ body {
   text-align: center;   
   width: 100%; 
   display: block; 
-  margin-left: 150px;
+  margin: 0 auto;
 }
 
 h1 {
   font-size: 50px;
   padding-left: 20px;
+}
+
+.alert {
+  position: relative;             
+  background-color: rgba(128, 128, 128, 0.5); /* gray with opacity */
+  color: white;                    
+  padding: 15px 20px;           
+  margin: 15px 0;                
+  border-radius: 6px;          
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.closebtn {
+  position: absolute;              /* position in top right corner */
+  right: 12px;
+  top: 10px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.closebtn:hover {
+  color: #000;                     /* black on hover for contrast */
+}
+
+.page {
+  width: 100%;
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
 }
