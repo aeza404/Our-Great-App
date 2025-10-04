@@ -1,1 +1,1 @@
-# CMSC434-Kitchen-App
+# Our Great App
