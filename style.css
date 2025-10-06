@@ -231,22 +231,28 @@ h1 {
     cursor: pointer;
     border-radius: 4px;
     position: relative;
+    box-sizing: border-box;
+}
+
+.todo-item .check-btn::after {
+    content: '';
 }
 
 .todo-item.completed .check-btn {
     border-color: #000;
-    background-color: #4CAF50;
+    background-color: transparent;
 }
 
 .todo-item.completed .check-btn::after {
-    content: '✓';
+    content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #444;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 .todo-text {
