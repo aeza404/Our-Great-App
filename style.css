@@ -79,9 +79,16 @@ body {
   padding-bottom: 5%;
 }
 
+
 /* Header styling */
 .textWords h1 {
   padding-top: 5px;
+}
+.scroll-text{
+  font-size: 30px;
+  padding: 20px;
+  text-align: left;
+  line-height: 1.4;
 }
 
 .selected {
@@ -92,7 +99,7 @@ body {
   position: absolute;
   bottom: 150px;   
   right: 10px;  
-  font-size: 20px;
+  font-size: 50px;
 }
 
 /* Line styles for Colors tab */
@@ -100,7 +107,7 @@ body {
   color: yellow;
   background-color: black;
   padding: 10px;
-  font-size: 30px;
+  font-size: 50px;
   font-weight: bold;
   text-align: center;   
   width: 100%;   
@@ -112,7 +119,7 @@ body {
   color: purple;
   background-color: yellow;
   padding: 10px;
-  font-size: 30px;
+  font-size: 50px;
   font-weight: bold;
   margin-top: 2px;
   text-align: center;   
@@ -122,10 +129,14 @@ body {
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 80px;
   padding-left: 20px;
 }
 
+h3 {
+  font-size: 60px;
+  padding-left: 20px;
+}
 .alert {
   position: relative;             
   background-color: rgba(128, 128, 128, 0.5); /* gray with opacity */
@@ -133,7 +144,7 @@ h1 {
   padding: 15px 20px;           
   margin: 15px 0;                
   border-radius: 6px;          
-  font-size: 30px;
+  font-size: 70px;
   font-weight: bold;
 }
 
@@ -142,7 +153,7 @@ h1 {
   right: 12px;
   top: 10px;
   color: white;
-  font-size: 40px;
+  font-size: 80px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -158,8 +169,21 @@ h1 {
   text-align: center;
 }
 
+.form{
+  font-size: 50px 
+}
 
+input[type="radio"] {
+  scale: 2; 
+}
 
+button[type="button"] {
+  scale: 3;
+}
+
+select {
+  scale: 3;
+}
 
 /* ToDo List Styles */
 .todo-input-area {
@@ -171,14 +195,14 @@ h1 {
 .todo-input {
     flex: 1;
     padding: 10px;
-    font-size: 16px;
+    font-size: 50px;
     border: 1px solid #999;
     border-radius: 4px;
 }
 
 .add-btn {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 50px;
     background-color: white;
     border: 2px solid #000;
     border-radius: 4px;
@@ -203,7 +227,7 @@ h1 {
     margin-bottom: 8px;
     background-color: #999;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 50px;
     color: white;
 }
 
@@ -224,12 +248,12 @@ h1 {
 }
 
 .check-btn {
-    width: 24px;
-    height: 24px;
-    border: 2px solid white;
+    width: 50px;
+    height: 50px;
+    border: 6px solid white;
     background: none;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 10px;
     position: relative;
     box-sizing: border-box;
 }
@@ -247,11 +271,11 @@ h1 {
     content: '';
     position: absolute;
     left: 5px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
+    top: -12px;
+    width: 20px;
+    height: 40px;
     border: solid #444;
-    border-width: 0 2px 2px 0;
+    border-width: 0 5px 5px 0;
     transform: rotate(45deg);
 }
 
@@ -263,7 +287,7 @@ h1 {
     background: none;
     border: none;
     color: white;
-    font-size: 20px;
+    font-size: 50px;
     cursor: pointer;
     padding: 0 8px;
 }
