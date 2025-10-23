@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Choices</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        function displayResult() {
+            const fav = document.querySelector('input[name="fav"]:checked').value;
+            const reason = document.getElementById('reasons').value;
+            document.getElementById('display-area').innerText = 'Favorite Team Member: ' + fav + '\nReason: ' + reason;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="page form">
+    <h1>Choices</h1>
+    <h3>Favorite Team Member</h3>
+    <input type="radio" id="lydia" name="fav" value="Lydia" checked>
+    <label for="lydia">Lydia</label><br>
+    <input type="radio" id="ayo" name="fav" value="Ayo">
+    <label for="ayo">Ayo</label><br>
+    <input type="radio" id="aneesa" name="fav" value="Aneesa">
+    <label for="aneesa">Aneesa</label><br>
+    <input type="radio" id="rickoi" name="fav" value="Rickoi">
+    <label for="rickoi">Rickoi</label>
+    <br><br>
+
+    <h3>Reasoning</h3>
+    <select name="reasons" id="reasons">
+        <option value="No Reason" disabled selected>-- Please select an option --</option>
+        <option value="Hardworking">Hardworking</option>
+        <option value="Funny">Funny</option>
+        <option value="Aura">Aura</option>
+        <option value="Kind">Kind</option>
+    </select>
+    <br><br>
+
+    <button type="button" onclick="displayResult()">Display Choices</button>
+    <br><br>
+    <div id="display-area"></div>
+    </div>
+    <div class="navigation">
+        <a href="index.html">
+            <div>
+                <img src="text-format.png" alt="Text">
+                <p>Text</p>
+            </div>
+        </a>
+
+        <a href="lr.html">
+            <div>
+                <img src="zigzag-arrow.png" alt="Arrow">
+                <p>LR</p>
+            </div>
+        </a>
+
+        <a href="colors.html">
+            <div>
+                <img src="color-palette.png" alt="Paint">
+                <p>Colors</p>
+            </div>
+        </a>
+
+        <a href="profile.html">
+            <div>
+                <img src="user.png" alt="Profile">
+                <p>Profile</p>
+            </div>
+        </a>
+
+        <a href="choices.html">
+            <div class="selected">
+                <img src="ideas.png" alt="Choices">
+                <p>Choices</p>
+            </div>
+        </a>
+
+        <a href="todo.html">
+            <div>
+                <img src="to-do-list.png" alt="ToDo">
+                <p>ToDo</p>
+            </div>
+        </a>
+    </div>
+</body>
+
+</html>
