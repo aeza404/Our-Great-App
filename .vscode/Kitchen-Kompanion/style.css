@@ -1,0 +1,212 @@
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: rgb(150, 195, 187);
+  height: 960px;
+  width: 640px;
+  margin: 0 auto; /* center horizontally */
+  position: relative; /* for positioning child elements */
+}
+
+
+
+/* Bottom navigation bar */
+.navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: space-around; /* items spread evenly */
+  align-items: center; /* makes each item fill full height */
+  background-color: rgb(101, 162, 174);
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+  padding: 0; /* remove default padding so spacing is consistent */
+}
+
+/* Each link takes equal space */
+.navigation a {
+  flex: 1; /* each link is equal width */
+  text-decoration: none;
+  font-size: 27px;
+  color: black;
+  font-weight: bold;
+  display: flex; /* so its child div can center nicely */
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* full nav height */
+}
+
+/* Inner div styling */
+.navigation a div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* fill parent link width */
+  height: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  transition: background-color 0.2s ease;
+}
+
+/* Optional hover effect */
+.navigation a div:hover {
+  background-color: rgb(15, 87, 102);
+}
+
+/* Icon styling */
+.navigation img {
+  width: 50px;
+  height: 60px;
+  margin-top: 22px
+}
+
+.fridge {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 0.6rem;
+  box-shadow: 0 6px 18px rgba(15,15,15,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.thumb {
+  width: 100%;
+  height: 110px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f2f2f2, #e9eef6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.meta strong {
+  color: #222;
+  font-size: 0.95rem;
+}
+
+/* Add button */
+.controls {
+  margin-left: auto;
+}
+
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 12px rgba(25,118,210,0.12);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  box-shadow: none;
+  border: 1px solid rgba(25,118,210,0.12);
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.35);
+  z-index: 40;
+}
+
+.modal {
+  width: min(640px, 95vw);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 20px 50px rgba(2,6,23,0.25);
+}
+
+.modal h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.form-row > * {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+@media (max-width:480px) {
+  .form-row {
+    flex-direction: column;
+  }
+  .thumb {
+    height: 90px;
+  }
+}
