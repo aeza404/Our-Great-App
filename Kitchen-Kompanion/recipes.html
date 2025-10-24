@@ -31,8 +31,57 @@
             </div>
         </a>
     </div>
-    <button id="myButton">Contact Us</button>
-    <script src="script.js"></script>
+    
+        <!-- Recipes page content -->
+        <main class="page" style="padding:1rem 1rem 160px;">
+                <header style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+                        <h1 style="margin:0">Recipes</h1>
+                        <div>
+                                <button id="addRecipeBtn" class="btn">Add Recipe</button>
+                        </div>
+                </header>
+
+                <section id="recipesList" class="recipes-list" aria-live="polite" style="margin-top:1rem;"></section>
+        </main>
+
+        <!-- Recipe modal/backdrop -->
+        <div id="recipeBackdrop" class="modal-backdrop" aria-hidden="true">
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="recipeFormTitle">
+                <h2 id="recipeFormTitle">Add / Edit Recipe</h2>
+                <form id="recipeForm">
+                    <input type="hidden" name="editIndex" value="">
+                    <label>Recipe name
+                        <input type="text" name="name" required>
+                    </label>
+
+                    <label>Image URL (optional)
+                        <input type="text" name="image" placeholder="https://...">
+                    </label>
+
+                    <label>Servings
+                        <input type="number" name="servings" min="1" value="1" style="width:6rem">
+                    </label>
+
+                    <div id="ingredientsEditor">
+                        <label>Ingredients</label>
+                        <div id="ingredientsContainer"></div>
+                        <button type="button" id="addIngredientBtn" class="btn ghost" style="margin-top:0.5rem">+ Add ingredient</button>
+                    </div>
+
+                    <label>Procedures / Notes
+                        <textarea name="procedures" rows="5"></textarea>
+                    </label>
+
+                    <div class="modal-foot">
+                        <button type="button" id="cancelRecipeBtn" class="btn ghost">Cancel</button>
+                        <button type="submit" class="btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button id="myButton">Contact Us</button>
+        <script src="script.js"></script>
 </body>
 
 </html>
