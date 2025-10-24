@@ -33,6 +33,45 @@
 
     </div>
 
+    <section class="card add-item-card">
+        <h2>Add item</h2>
+        <form id="addItemForm" class="add-form">
+            <div class="form-group">
+                <label for="itemName">Item Name<span class="required">*</span></label>
+                <input type="text" id="itemName" placeholder="e.g. Eggs, Spinach, Pasta" required>
+            </div>
+
+            <div class="form-group">
+                <label for="itemQty">Quantity / Amount</label>
+                <input type="text" id="itemQty" placeholder="e.g. 2 dozen, 1 bag, 3 cups">
+            </div>
+
+            <button type="submit" class="btn-add">
+                <span class="plus">＋</span>
+                <span>Add to List</span>
+            </button>
+        </form>
+    </section>
+
+    <!-- Grocery List Card -->
+    <section class="card list-card">
+        <div class="list-header">
+            <h2>Your Items</h2>
+            <button id="clearCheckedBtn" class="btn-clear" title="Remove all checked items">
+                Clear Checked
+            </button>
+        </div>
+
+        <ul id="groceryList" class="grocery-list">
+            <!-- Example starter items -->
+            <!-- These get rendered by JS too, so you can remove this block if you prefer all-dynamic -->
+        </ul>
+
+        <p id="emptyState" class="empty-state">Your list is empty. Add something above 👆🏽</p>
+    </section>
+
+
+
     <button id="myButton">Contact Us</button>
     <script src="script.js"></script>
 </body>

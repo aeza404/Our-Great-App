@@ -122,6 +122,124 @@ function fileToDataUrl(file) {
   });
 }
 
+const addItemForm = document.getElementById('addItemForm');
+const groceryList = document.getElementById('groceryList');
+const itemNameInput = document.getElementById('itemName');
+const itemQtyInput = document.getElementById('itemQty');
+const emptyState = document.getElementById('emptyState');
+const clearCheckedBtn = document.getElementById('clearCheckedBtn');
+const contactBtn = document.getElementById('myButton');
+const items = [
+  { name: 'Spinach', qty: '1 bag', checked: false },
+  { name: 'Chicken breast', qty: '2 lbs', checked: false },
+  { name: 'Oat milk', qty: '2 cartons', checked: true }
+];
+
+function renderList() {
+  // Clear current list in the DOM
+  groceryList.innerHTML = '';
+
+  // Show or hide "Your list is empty" message
+  if (items.length === 0) {
+      emptyState.style.display = 'block';
+  } else {
+      emptyState.style.display = 'none';
+  }
+
+  // Build each row
+  items.forEach((item, index) => {
+      // container <li>
+      const li = document.createElement('li');
+      li.classList.add('list-item-row');
+      if (item.checked) li.classList.add('checked');
+
+      // checkbox + custom green box
+      const checkboxWrapper = document.createElement('label');
+      checkboxWrapper.classList.add('checkbox-wrapper');
+
+      const checkboxInput = document.createElement('input');
+      checkboxInput.type = 'checkbox';
+      checkboxInput.checked = item.checked;
+      checkboxInput.dataset.index = index; // save which item this is
+
+      const customCheck = document.createElement('div');
+      customCheck.classList.add('custom-checkbox');
+      customCheck.textContent = '✓';
+
+      checkboxWrapper.appendChild(checkboxInput);
+      checkboxWrapper.appendChild(customCheck);
+
+      // text block (name + quantity)
+      const textGroup = document.createElement('div');
+      textGroup.classList.add('item-text-group');
+
+      const mainLine = document.createElement('div');
+      mainLine.classList.add('item-main-line');
+      mainLine.textContent = item.name;
+
+      const qtyLine = document.createElement('div');
+      qtyLine.classList.add('item-qty-line');
+      qtyLine.textContent = item.qty || '';
+
+      textGroup.appendChild(mainLine);
+      textGroup.appendChild(qtyLine);
+
+      // put it all together
+      li.appendChild(checkboxWrapper);
+      li.appendChild(textGroup);
+
+      groceryList.appendChild(li);
+  });
+}
+
+addItemForm.addEventListener('submit', function (e) {
+  e.preventDefault(); // stop page refresh
+
+  const nameVal = itemNameInput.value.trim();
+  const qtyVal = itemQtyInput.value.trim();
+
+  // don't add blank items
+  if (!nameVal) {
+      return;
+  }
+
+  // push new item into our array
+  items.push({
+      name: nameVal,
+      qty: qtyVal,
+      checked: false
+  });
+
+  // clear input boxes
+  itemNameInput.value = '';
+  itemQtyInput.value = '';
+
+  // re-draw list
+  renderList();
+});
+
+groceryList.addEventListener('change', function (e) {
+  if (e.target.matches('input[type="checkbox"]')) {
+      const idx = e.target.dataset.index;
+      const newCheckedState = e.target.checked;
+
+      items[idx].checked = newCheckedState;
+      renderList();
+  }
+});
+
+clearCheckedBtn.addEventListener('click', function () {
+  for (let i = items.length - 1; i >= 0; i--) {
+      if (items[i].checked) {
+          items.splice(i, 1);
+      }
+  }
+  renderList();
+});
+
+renderList();
+
+
 // demo seed
 const seed = [
   { name: 'Milk', amount: 1, exp: '', imgDataUrl: '', notes: '2%' },

@@ -210,6 +210,97 @@ textarea {
     height: 90px;
   }
 }
+/* Shopping, Grocery List Page */
+
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 1.25rem 1.25rem 1rem;
+  border: var(--border-light);
+}
+
+.card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green-dark);
+  letter-spacing: -0.03rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* --------- Add Item Form --------- */
+
+.add-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--green-dark);
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.required {
+  color: var(--green-mid);
+  font-weight: 600;
+}
+
+.form-group input {
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--green-soft);
+  background-color: #fff;
+  font-size: 0.9rem;
+  padding: 0.7rem 0.75rem;
+  line-height: 1.3;
+  color: green;
+  transition: border var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  outline: none;
+}
+
+/* Add button */
+.btn-add {
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  background-color: #A2DAB3;
+  color: #062d08;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.8rem 1rem;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: 0 14px 28px rgba(21, 62, 36, 0.35);
+  transition: all var(--transition-fast);
+}
+
+.btn-add .plus {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.btn-add:hover {
+  box-shadow: 0 16px 32px rgba(31, 77, 47, 0.5);
+  transform: translateY(-1px) scale(1.02);
+}
+
+
 
 #myButton {
   /* Pin the button to the bottom of the viewport and center it horizontally.
