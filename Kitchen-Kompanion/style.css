@@ -237,3 +237,83 @@ textarea {
     bottom: calc(120px + 12px);
   }
 }
+
+/* Recipes cards */
+.recipes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.recipe-card {
+  /* Use same green as Contact Us button */
+  background: #4CAF50;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.5rem;
+  box-shadow: 0 8px 18px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+
+.recipe-header {
+  display: flex;
+  flex-direction: column; /* stack thumbnail above title */
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.recipe-thumb {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-weight:700;
+  color:#fff;
+  /* make placeholder/thumb readable on green background */
+  background: rgba(255,255,255,0.12);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+}
+
+.recipe-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+
+.recipe-title {
+  flex:1;
+  margin-top:0.25rem;
+}
+
+.recipe-details {
+  margin-top:0.6rem;
+  padding-top:0.4rem;
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+
+/* Hide details by default; show when .open on card */
+.recipe-card .recipe-details { display: none !important }
+.recipe-card.open .recipe-details { display: block !important }
+
+.ingredients-list{margin:0 0 0.6rem 1rem;color:rgba(255,255,255,0.95)}
+.procedures{white-space:pre-wrap;color:rgba(255,255,255,0.95)}
+.recipe-actions{display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.6rem}
+
+/* Buttons inside recipe card should contrast */
+.recipe-card .btn { background: rgba(255,255,255,0.12); color: #fff; box-shadow: none }
+.recipe-card .btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.24) }
+.btn.small{padding:0.25rem 0.5rem;font-size:0.85rem}
+
+/* Make Add Recipe button match Contact Us color */
+#addRecipeBtn {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
