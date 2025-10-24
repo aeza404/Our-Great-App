@@ -1,10 +1,17 @@
+console.log("Script started");
 const openBtn = document.getElementById('openBtn');
 const backdrop = document.getElementById('backdrop');
 const cancelBtn = document.getElementById('cancelBtn');
 const itemForm = document.getElementById('itemForm');
 const fridge = document.getElementById('fridge');
+const contact = document.getElementById("myButton");
 
 let lastFocused = null;
+
+contact.addEventListener("click", () => {
+    alert("Calling Kitchen Kompanion Support at (555) 123-4567");
+});
+
 
 function openModal() {
   lastFocused = document.activeElement;
@@ -222,6 +229,7 @@ function showRestockScreen2(selectedItems) {
 }
 
 
+
 //Screen 3:
-//need to see how shopping list is implemented befor finishing add to grocery button
+//need to see how shopping list is implemented before finishing add to grocery button
 

@@ -210,3 +210,30 @@ textarea {
     height: 90px;
   }
 }
+
+#myButton {
+  /* Pin the button to the bottom of the viewport and center it horizontally.
+     It's placed above the fixed bottom navigation (which is 120px high). */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(120px + 16px); /* nav height (120px) + gap */
+  z-index: 200; /* above navigation */
+  padding: 12px 22px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 28px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* Smaller screens: keep the button readable and spaced from nav */
+@media (max-width: 480px) {
+  #myButton {
+    padding: 10px 18px;
+    font-size: 15px;
+    bottom: calc(120px + 12px);
+  }
+}
