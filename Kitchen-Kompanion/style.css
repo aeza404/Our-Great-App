@@ -1,3 +1,12 @@
+:root {
+  --bg: #f6f8fa;
+  --card: #ffffff;
+  --accent: #1976d2;
+  --muted: #6b6f76;
+  --glass: rgba(0,0,0,0.06);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
 body {
   font-family: 'Times New Roman', Times, serif;
   background-color: rgb(150, 195, 187);
@@ -317,3 +326,40 @@ textarea {
   border: none;
   box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
+
+/* Dropdown for filtering */
+.dropdown {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 0.9rem;
+}
+
+/* Amount +/- controls */
+.amount-control {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.amount-control .btn.small {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.amount-control span.amount {
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Location tag */
+.location-tag {
+  font-size: 0.8rem;
+  color: #444;
+  margin-top: 0.2rem;
+}
+
+

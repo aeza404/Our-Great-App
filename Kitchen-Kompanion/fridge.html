@@ -2,100 +2,137 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Kitchen Kompanion</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 
-<header>
-    <h1>My Fridge</h1>
-    <div class="controls">
-        <button id="openBtn" class="btn">Add item</button>
-        <button id="smartRestockBtn" class="btn">Smart Restock</button>
+<body>
+    <header>
+        <h1>My Fridge</h1>
+        <div class="controls">
+
+            <!-- Location Filter Dropdown -->
+            <select id="locationFilter">
+                <!-- Options will be dynamically populated by JS -->
+            </select><br><br>
+
+            <button id="openBtn" class="btn">Add item</button>
+            <button id="smartRestockBtn" class="btn">Smart Restock</button>
+        </div>
+    </header>
+
+    <main>
+        <p class="hint">
+            Click "Add item" to open the popup and add an item to your fridge.
+        </p>
+
+        <section id="fridge" class="fridge" aria-live="polite">
+            <!-- generated fridge items will appear here -->
+        </section>
+    </main>
+
+    <!-- Modal / Popup -->
+    <div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal" role="document">
+            <h2>Add item to fridge</h2>
+
+            <form id="itemForm" autocomplete="off">
+                <div class="form-row">
+                    <div>
+                        <label for="name">Item name</label>
+                        <input id="name" name="name" type="text" required placeholder="e.g., Greek yogurt" />
+                    </div>
+                    <div>
+                        <label for="amount">Amount</label>
+                        <input id="amount" name="amount" type="number" min="1" value="1" required />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label for="unit">Unit</label>
+                        <input list="unitList" id="unit" name="unit" placeholder="e.g., lbs, bottles" />
+                        <datalist id="unitList">
+                            <option value="pcs"></option>
+                            <option value="bottles"></option>
+                            <option value="cartons"></option>
+                            <option value="lbs"></option>
+                            <option value="oz"></option>
+                        </datalist>
+                    </div>
+
+                    <div>
+                        <label for="location">Location</label>
+                        <input list="locationList" id="location" name="location" placeholder="e.g., Pantry" />
+                        <datalist id="locationList">
+                            <option value="Fridge"></option>
+                            <option value="Freezer"></option>
+                            <option value="Pantry"></option>
+                        </datalist>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div>
+                        <label for="exp">Expiration date</label>
+                        <input id="exp" name="exp" type="date" />
+                    </div>
+                    <div>
+                        <label for="image">Image</label>
+                        <input id="image" name="image" type="file" accept="image/*" />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="notes">Notes (optional)</label>
+                    <textarea id="notes" name="notes" rows="2" placeholder="brand, location, etc."></textarea>
+                </div>
+
+                <div class="modal-foot">
+                    <button type="button" id="cancelBtn" class="btn ghost">
+                        Cancel
+                    </button>
+                    <button id="enterBtn" class="btn" type="submit">Enter</button>
+                </div>
+            </form>
+        </div>
     </div>
-</header>
 
-<main>
-    <p class="hint">Click "Add item" to open the popup and add an item to your fridge. Images are stored in memory for
-        this demo.</p>
+    <!-- Smart Restock Modal -->
+    <div id="smartRestock" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal" role="document" id="restockContent">
+            <!-- Restock screen content -->
+        </div>
+    </div>
 
-    <section id="fridge" class="fridge" aria-live="polite">
-        <!-- generated fridge items will appear here -->
-    </section>
-</main>
-
-<!-- Modal / Popup -->
-<div id="backdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-        <h2>Add item to fridge</h2>
-
-        <form id="itemForm" autocomplete="off">
-            <div class="form-row">
-                <div>
-                    <label for="name">Item name</label>
-                    <input id="name" name="name" type="text" required placeholder="e.g., Greek yogurt">
-                </div>
-                <div>
-                    <label for="amount">Amount</label>
-                    <input id="amount" name="amount" type="number" min="1" value="1" required>
-                </div>
+    <!-- Bottom Nav -->
+    <div class="navigation">
+        <a href="fridge.html">
+            <div class="selected">
+                <img src="fridge.png" alt="Fridge" />
+                <p>Fridge</p>
             </div>
+        </a>
 
-            <div class="form-row">
-                <div>
-                    <label for="exp">Expiration date</label>
-                    <input id="exp" name="exp" type="date">
-                </div>
-                <div>
-                    <label for="image">Image</label>
-                    <input id="image" name="image" type="file" accept="image/*">
-                </div>
-            </div>
-
+        <a href="shopping.html">
             <div>
-                <label for="notes">Notes (optional)</label>
-                <textarea id="notes" name="notes" rows="2" placeholder="brand, location, etc."></textarea>
+                <img src="shopping.png" alt="Shopping" />
+                <p>Shopping</p>
             </div>
+        </a>
 
-            <div class="modal-foot">
-                <button type="button" id="cancelBtn" class="btn ghost">Cancel</button>
-                <button id="enterBtn" class="btn" type="submit">Enter</button>
+        <a href="recipes.html">
+            <div>
+                <img src="recipe.png" alt="Recipes" />
+                <p>Recipes</p>
             </div>
-        </form>
+        </a>
     </div>
-</div>
 
-<div id="smartRestock" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" id="restockContent">
-       <!-- Restock screen gona be here -->
-    </div>
-</div>
+    <button id="myButton">Contact Us</button>
 
-
-<div class="navigation">
-    <a href="fridge.html">
-        <div class="selected">
-            <img src="fridge.png" alt="Fridge">
-            <p>Fridge</p>
-        </div>
-    </a>
-
-    <a href="shopping.html">
-        <div>
-            <img src="shopping.png" alt="Shopping">
-            <p>Shopping</p>
-        </div>
-    </a>
-
-    <a href="recipes.html">
-        <div>
-            <img src="recipe.png" alt="Recipes">
-            <p>Recipes</p>
-        </div>
-    </a>
-</div>
-<button id="myButton">Contact Us</button>
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
