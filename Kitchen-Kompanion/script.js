@@ -178,6 +178,112 @@ function fileToDataUrl(file) {
   });
 }
 
+
+//Restock Button stuff start here 
+//4 screens
+//screen 1:
+// SMART RESTOCK FLOW
+const smartRestockBtn = document.getElementById('smartRestockBtn');
+const smartRestockModal = document.getElementById('smartRestock');
+const restockContent = document.getElementById('restockContent');
+
+// fake data later will change and update based on stuff added and removed***
+const lowItems = [
+  { name: "Milk", amount: 0 },
+  { name: "Eggs", amount: 2 },
+  { name: "Apples", amount: 1 }
+];
+
+// Replace the above fake data with this comment later when ready
+// const fridgeItems = JSON.parse(localStorage.getItem('fridgeItems')) || [];
+
+// const lowItems = fridgeItems.filter(item => {
+//   // you define what "low" means — e.g., amount <= 2
+//   return item.amount <= 2;
+// });
+
+smartRestockBtn.addEventListener('click', () => {
+  showRestockScreen1();
+});
+
+function showRestockScreen1() {
+  smartRestockModal.setAttribute('aria-hidden', 'false');
+  smartRestockModal.style.display = 'flex';
+
+  restockContent.innerHTML = `
+    <h2>Smart Restock</h2>
+    <p>Selected items that are low and you might want to replace <br>
+    Select items to restock and click next.:</p>
+    <form id="restockForm">
+      ${lowItems.map((item, i) => `
+        <div>
+          <input type="checkbox" id="item${i}" name="item" value="${item.name}">
+          <label for="item${i}">${item.name} (Remaining: ${item.amount})</label>
+        </div>
+      `).join('')}
+      <div class="modal-foot">
+        <button type="button" id="cancelRestockBtn" class="btn ghost">Cancel</button>
+        <button type="submit" class="btn">Next</button>
+      </div>
+    </form>
+  `;
+
+  document.getElementById('cancelRestockBtn').addEventListener('click', closeRestockModal);
+  document.getElementById('restockForm').addEventListener('submit', handleRestockSelection);
+}
+
+function closeRestockModal() {
+  smartRestockModal.style.display = 'none';
+  smartRestockModal.setAttribute('aria-hidden', 'true');
+}
+
+//screen 2:................................
+function handleRestockSelection(event) {
+  event.preventDefault(); // stop page reload
+
+  const selected = [...event.target.querySelectorAll('input[name="item"]:checked')]
+    .map(input => input.value);
+
+  if (selected.length === 0) {
+    alert('Please select at least one item.');
+    return;
+  }
+
+  showRestockScreen2(selected);
+}
+
+function showRestockScreen2(selectedItems) {
+  restockContent.innerHTML = `
+    <h2>Set Quantity & Brand</h2>
+    <form id="restockDetailsForm">
+      ${selectedItems.map(name => `
+        <div class="restock-item">
+          <label><strong>${name}</strong></label>
+          <div class="form-row">
+            <input type="number" name="quantity-${name}" min="1" value="1" required>
+            <input type="text" name="brand-${name}" placeholder="(IDK if we even need this box here, but adding incase the shopping list needs more parameter inputs other than item name and count)">
+          </div>
+        </div>
+      `).join('')}
+      <div class="modal-foot">
+        <button type="button" id="backToScreen1" class="btn ghost">Back</button>
+        <button type="submit" class="btn">Add to Grocery List</button>
+      </div>
+    </form>
+  `;
+
+  document.getElementById('backToScreen1').addEventListener('click', showRestockScreen1);
+  document.getElementById('restockDetailsForm').addEventListener('submit', handleRestockConfirmation);
+}
+
+
+
+//Screen 3:
+//need to see how shopping list is implemented before finishing add to grocery button
+
+
+
+
 // ============ FILTER BY LOCATION ==============
 locationFilter.addEventListener('change', () => {
   renderFridge();
