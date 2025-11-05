@@ -408,6 +408,32 @@ function renderFridge() {
 }
 
 
+// keyboard behavior
+const fakeKeyboard = document.getElementById("fakeKeyboard");
+
+document.addEventListener("focusin", (e) => {
+  const targetElement = e.target;
+  if ((targetElement.tagName === 'INPUT' &&
+      (targetElement.type === 'text' ||
+        targetElement.type === 'password' ||
+        targetElement.type === 'email' ||
+        targetElement.type === 'search' ||
+        targetElement.type === 'tel' ||
+        targetElement.type === 'url' ||
+        targetElement.type === 'number')) ||
+    targetElement.tagName === 'TEXTAREA' ||
+    targetElement.isContentEditable // For elements with contenteditable attribute
+  ) {
+    fakeKeyboard.classList.add("active");
+  }
+});
+
+document.addEventListener("focusout", (e) => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+    setTimeout(() => fakeKeyboard.classList.remove("active"), 200);
+  }
+});
+
 // ============ INIT DEFAULT ITEMS ==============
 fridgeItems = [
   { name: 'Milk', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
