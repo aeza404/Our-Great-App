@@ -154,8 +154,6 @@ const builtInTemplates = [
       else if (sortMode === "category") sortLabel.textContent = "Category";
       else if (sortMode === "requestedBy") sortLabel.textContent = "Requested By";
     }
-  
-    renderTemplateShortList();
   }
   
   function createItemRow(item) {
@@ -245,45 +243,8 @@ const builtInTemplates = [
   
     return li;
   }
-  
-  function renderTemplateShortList() {
-    const container = document.getElementById("templateShortList");
-    if (!container) return;
-    container.innerHTML = "";
-  
-    const allTemplates = [...builtInTemplates, ...userTemplates];
-  
-    if (allTemplates.length === 0) {
-      const p = document.createElement("p");
-      p.className = "empty-state";
-      p.textContent = "No saved templates yet. Save this list when you’re done!";
-      container.appendChild(p);
-      return;
-    }
-  
-    allTemplates.slice(0, 3).forEach((tmpl) => {
-      const div = document.createElement("div");
-      div.className = "template-pill";
-      div.addEventListener("click", () => {
-        applyTemplate(tmpl);
-        showToast(`Loaded template: ${tmpl.name}`);
-      });
-  
-      const left = document.createElement("span");
-      left.textContent = tmpl.name;
-  
-      const right = document.createElement("small");
-      const count = tmpl.items?.length || 0;
-      right.textContent = `${count} item${count === 1 ? "" : "s"}`;
-  
-      div.appendChild(left);
-      div.appendChild(right);
-      container.appendChild(div);
-    });
-  }
-  
+
   // items operations
-  
   function addItem(data) {
     state.items.push({
       id: generateId(),

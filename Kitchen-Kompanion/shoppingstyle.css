@@ -186,32 +186,17 @@
     border-radius: 10px;
     padding: 8px 8px;
     font-weight: 400;
-    font-size: 0.9rem;
+    font-size: 1.12rem;
   }
 
   .sort-menu.hidden {
     display: none;
   }
   
-  /* Stack To Buy and Purchased vertically, full width */
   .content-grid {
     display: flex;
     flex-direction: column;
     gap: 16px;
-  }
-  
-  @media (max-width: 720px) {
-    .app-shell {
-      margin: 8px;
-      padding: 18px;
-    }
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .header-actions {
-      justify-content: flex-start;
-    }
   }
   
   /* cards */
@@ -252,7 +237,7 @@
   
   .hint-text {
     margin: 0 0 8px;
-    font-size: 1.25rem;
+    font-size: 1.45rem;
   }
   
   .item-list {
@@ -363,47 +348,6 @@
   .icon {
     font-size: 1.5rem;
     line-height: 1;
-  }
-  
-  /* Templates short list */
-  
-  .template-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 6px;
-  }
-  
-  .template-pill {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px dashed rgba(22, 163, 74, 0.6);
-    font-size: 1.7rem;
-    cursor: pointer;
-  }
-  
-  .template-pill span {
-    font-weight: 500;
-  }
-  
-  .template-pill small {
-    font-weight: 400;
-  }
-  
-  /* Footer */
-  
-  .footer-actions {
-    margin-top: 10px;
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .footer-actions button {
-    padding-inline: 16px;
   }
   
   /* Modals */

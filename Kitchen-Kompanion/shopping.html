@@ -105,15 +105,11 @@
                         Checked items slide down here so you can see what’s done vs. what’s left.
                     </p>
                     <ul id="purchasedList" class="item-list"></ul>
-                    <div id="purchasedEmpty" class="empty-state" style="display: none;">
-                        Nothing purchased yet. Tap checkboxes on the left list as you shop.
+                    <div id="purchasedEmpty" class="empty-state" style="display: none; font-size: 1.5rem;" >
+                        Nothing purchased yet. Tap checkboxes on the above list as you shop.
                     </div>
 
                     <hr style="margin: 10px 0; border: none; border-top: 1px dashed rgba(148, 163, 184, 0.4);" />
-                    <p class="hint-text" style="margin-bottom: 4px;">
-                        Favorite templates
-                    </p>
-                    <div id="templateShortList" class="template-list"></div>
                 </section>
             </div>
 
@@ -154,7 +150,7 @@
                     <div class="form-field">
                         <label for="itemCategoryInput">Category</label>
                         <select id="itemCategoryInput">
-                            <option value="">Select a category</option>
+                            <option value="">Select a Category</option>
                             <option value="Produce">Produce</option>
                             <option value="Dairy">Dairy</option>
                             <option value="Bakery">Bakery</option>
@@ -168,10 +164,10 @@
                         </select>
                     </div>
                     <div class="form-field">
-                        <label for="itemRequestedByInput">Requested by
+                        <label for="itemRequestedByInput">Requested By
                             <span style="color: #94a3b8; font-weight: 400;">(optional)</span>
                         </label>
-                        <input type="text" id="itemRequestedByInput" placeholder="Roommate, Partner, Kids…" />
+                        <input type="text" id="itemRequestedByInput" placeholder="Roommate, Kids…" />
                     </div>
                 </form>
             </div>
@@ -184,7 +180,7 @@
         </div>
     </div>
 
-        <!-- Save Template Modal -->
+        <!-- save a new template modal -->
     <div id="templateSaveModalBackdrop" class="modal-backdrop" style="display: none;">
         <div class="modal">
         <div class="modal-header">
@@ -192,12 +188,12 @@
             <button class="modal-close" type="button" data-close-template-save-modal>✕</button>
         </div>
         <div class="modal-body">
-            <p id="templateSaveInfo" style="margin: 0 0 8px; font-size: 0.85rem; color: #64748b;">
-            <!-- JS will fill this with counts -->
+            <p id="templateSaveInfo" style="margin: 0 0 8px; font-size: 1.5rem; color: #64748b;">
+            <!-- js will fill this with counts -->
             </p>
             <form id="templateSaveForm">
             <div class="form-field">
-                <label for="templateNameInput">Template name</label>
+                <label for="templateNameInput">New List Name</label>
                 <input
                 type="text"
                 id="templateNameInput"
@@ -214,7 +210,7 @@
         </div>
     </div>
 
-    <!-- New List / Template Modal -->
+    <!-- new template modal -->
     <div id="templateModalBackdrop" class="modal-backdrop" style="display: none;">
         <div class="modal">
             <div class="modal-header">
@@ -233,7 +229,7 @@
         </div>
     </div>
 
-    <!-- Keyboard Simulation -->
+    <!-- keyboard simulation -->
     <div id="fakeKeyboard"></div>
     <script src="shoppingscript.js"></script>
 </body>
