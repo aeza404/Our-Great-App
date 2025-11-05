@@ -326,3 +326,23 @@ textarea {
   border: none;
   box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
+
+/* ==== Scrollbar (optional aesthetic) ==== */
+main::-webkit-scrollbar {
+  width: 6px;
+}
+main::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.filter-panel {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.filter-panel.open {
+  display: flex;
+}
