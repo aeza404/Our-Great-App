@@ -372,18 +372,7 @@
     box-shadow: 0 22px 55px rgba(15, 23, 42, 0.25);
     animation: pop 0.15s ease-out;
   }
-  
-  @keyframes pop {
-    from {
-      transform: translateY(8px) scale(0.98);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-  }
-  
+
   .modal-header {
     display: flex;
     align-items: center;
@@ -428,6 +417,7 @@
   
   .form-field label {
     font-weight: 500;
+    font-size: 1.7rem;
   }
   
   .form-field input,
@@ -435,7 +425,7 @@
     border-radius: 999px;
     border: 1px solid rgba(148, 163, 184, 0.7);
     padding: 9px 12px;
-    font-size: 1.7rem;
+    font-size: 1.49rem;
     font-family: inherit;
     outline: none;
     background: #f9fafb;
@@ -506,7 +496,7 @@
     color: #0f172a;
   }
   
-  /* Toast */ 
+  /* Popup */ 
   .toast {
     position: fixed;
     bottom: 20px;
@@ -536,7 +526,7 @@
     width: 20px;
     height: 20px;
     border-radius: 999px;
-    background: #22c55e;
+    background: #7bd29b;
     display: inline-flex;
     align-items: center;
     justify-content: center;
