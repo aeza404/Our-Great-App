@@ -220,7 +220,7 @@ const builtInTemplates = [
     editBtn.type = "button";
     editBtn.className = "icon-btn";
     editBtn.title = "Edit item";
-    editBtn.innerHTML = '<span class="icon">✎</span>';
+    editBtn.innerHTML = '<span class="icon">✏️</span>';
     editBtn.addEventListener("click", () => {
       openEditItemModal(item.id);
     });
