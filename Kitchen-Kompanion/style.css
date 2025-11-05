@@ -249,9 +249,53 @@ textarea {
 
 /* Recipes cards */
 .recipes-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Featured (first) recipe styling */
+.recipe-card.featured {
+  width: 100%;
+  padding: 0.75rem;
+}
+.recipe-card.featured .recipe-thumb {
+  height: 260px;
+}
+
+/* Category containers placed below the featured recipe */
+.recipe-category {
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+}
+.recipe-category h2 {
+  color: #08353a;
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+}
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Category bar with clickable boxes */
+#categoryBar { margin-bottom: 0.5rem; }
+.cat-box {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: none;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.cat-box.active { background: rgba(255,255,255,0.22); box-shadow: 0 6px 12px rgba(0,0,0,0.12); }
+.recipe-card.featured .recipe-title strong { font-size: 1.25rem }
+
+/* Non-featured cards smaller */
+.recipe-card:not(.featured) {
+  width: 100%;
+  padding: 0.5rem;
 }
 
 .recipe-card {
@@ -306,6 +350,16 @@ textarea {
   border-top:1px solid rgba(255,255,255,0.12);
 }
 
+.recipe-category-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: rgba(255,255,255,0.95);
+}
+
 /* Hide details by default; show when .open on card */
 .recipe-card .recipe-details { display: none !important }
 .recipe-card.open .recipe-details { display: block !important }
@@ -326,6 +380,55 @@ textarea {
   border: none;
   box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
+
+.recipe-card.fullscreen {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 300;
+  width: 640px; /* stage width */
+  height: 960px; /* stage height */
+  overflow: auto;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+/* Make the thumbnail fill the top of the fullscreen card */
+
+.recipe-card.fullscreen .recipe-thumb {
+  height: 360px;
+}
+
+/* Make details visible and larger when fullscreen */
+.recipe-card.fullscreen .recipe-details { display: block !important; padding: 0.8rem; }
+
+/* Dim background when fullscreen active */
+body.fullscreen-active::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 250;
+}
+
+/* Close button for fullscreen */
+.recipe-card .close-fullscreen {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 310;
+}
+
+/* Ensure internal buttons in fullscreen are readable */
+.recipe-card.fullscreen .btn { background: rgba(255,255,255,0.16); color: #fff }
 
 /* ==== Scrollbar (optional aesthetic) ==== */
 main::-webkit-scrollbar {

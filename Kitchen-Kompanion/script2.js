@@ -1,8 +1,4 @@
-const contact = document.getElementById("myButton");
 let lastFocused = null;
-contact.addEventListener("click", () => {
-    alert("Calling Kitchen Kompanion Support at (555) 123-4567");
-});
 
 // small utility used when injecting values into HTML attributes
 function escapeHtml(s) {
@@ -36,8 +32,89 @@ function escapeHtml(s) {
   }
 
   let recipes = loadRecipes();
+  let activeCategory = null; // when set, only show recipes from this category
+    let _confirmElems = null;
+    function ensureConfirmModal() {
+      if (_confirmElems) return _confirmElems;
+    const backdrop = document.createElement('div');
+    backdrop.className = 'modal-backdrop';
+    backdrop.style.display = 'none';
+    backdrop.setAttribute('aria-hidden', 'true');
+    // make sure confirm modal sits above fullscreen recipe cards (which use z-index:300)
+    backdrop.style.zIndex = '1000';
+
+      const modal = document.createElement('div');
+      modal.className = 'modal';
+      modal.setAttribute('role', 'dialog');
+      modal.setAttribute('aria-modal', 'true');
+      modal.innerHTML = `
+        <h2 class="kk-confirm-title"></h2>
+        <div class="kk-confirm-message" style="margin:0.5rem 0 1rem 0;"></div>
+        <div style="display:flex;justify-content:flex-end;gap:0.5rem">
+          <button class="kk-confirm-cancel btn ghost">Cancel</button>
+          <button class="kk-confirm-ok btn">OK</button>
+        </div>
+      `;
+
+      backdrop.appendChild(modal);
+      document.body.appendChild(backdrop);
+
+      _confirmElems = {
+        backdrop, modal,
+        title: modal.querySelector('.kk-confirm-title'),
+        message: modal.querySelector('.kk-confirm-message'),
+        ok: modal.querySelector('.kk-confirm-ok'),
+        cancel: modal.querySelector('.kk-confirm-cancel'),
+      };
+
+      return _confirmElems;
+    }
+
+    function showConfirm(opts) {
+      const e = ensureConfirmModal();
+      e.title.textContent = opts.title || '';
+      e.message.textContent = opts.message || '';
+      e.ok.textContent = opts.confirmText || 'OK';
+      e.cancel.textContent = opts.cancelText || 'Cancel';
+
+      function cleanup() {
+        e.ok.removeEventListener('click', onOk);
+        e.cancel.removeEventListener('click', onCancel);
+        document.removeEventListener('keydown', onKey);
+        e.backdrop.removeEventListener('click', onBackdropClick);
+      }
+
+      function hideConfirm() {
+        e.backdrop.style.display = 'none';
+        e.backdrop.setAttribute('aria-hidden', 'true');
+        cleanup();
+      }
+
+      function onOk(ev) {
+        ev.preventDefault();
+        hideConfirm();
+        try { if (typeof opts.onConfirm === 'function') opts.onConfirm(); } catch (err) { console.error(err); }
+      }
+    function onCancel(ev) { ev.preventDefault(); hideConfirm(); if (typeof opts.onCancel === 'function') opts.onCancel(); }
+    function onKey(ev) { if (ev.key === 'Escape') { onCancel(ev); } }
+    function onBackdropClick(ev) { if (ev.target === e.backdrop) onCancel(ev); }
+
+      e.ok.addEventListener('click', onOk);
+      e.cancel.addEventListener('click', onCancel);
+      e.backdrop.addEventListener('click', onBackdropClick);
+      document.addEventListener('keydown', onKey);
+
+      e.backdrop.style.display = 'flex';
+      e.backdrop.setAttribute('aria-hidden', 'false');
+      e.ok.focus();
+    }
 
   function openRecipeModal(prefill) {
+    // if any card is fullscreen, exit it so the modal can appear above
+    const fs = document.querySelector('.recipe-card.fullscreen');
+    if (fs) exitFullscreen(fs);
+    // ensure backdrop sits above fullscreen content
+    recipeBackdrop.style.zIndex = '1200';
     recipeBackdrop.style.display = 'flex';
     recipeBackdrop.setAttribute('aria-hidden', 'false');
     if (prefill) {
@@ -59,6 +136,8 @@ function escapeHtml(s) {
   function closeRecipeModal() {
     recipeBackdrop.style.display = 'none';
     recipeBackdrop.setAttribute('aria-hidden', 'true');
+    // restore default stacking so it doesn't unintentionally sit above other UI
+    recipeBackdrop.style.zIndex = '';
     recipeForm.reset();
     ingredientsContainer.innerHTML = '';
   }
@@ -121,6 +200,7 @@ function escapeHtml(s) {
     const name = form.name.value.trim();
     const image = form.image.value.trim();
     const procedures = form.procedures.value.trim();
+  const category = form.category ? form.category.value.trim() : '';
     const servings = Number(form.servings.value) || 1;
 
     const ingredients = Array.from(ingredientsContainer.querySelectorAll('div.form-row')).map(row => {
@@ -130,7 +210,7 @@ function escapeHtml(s) {
       return { qty: qv === '' ? '' : Number(qv), unit: uv, name: nv };
     }).filter(it => it.name);
 
-    const recipeObj = { name, image, procedures, ingredients, servings };
+  const recipeObj = { name, image, procedures, ingredients, servings, category };
 
     if (editIndex !== '') {
       recipes[Number(editIndex)] = recipeObj;
@@ -168,6 +248,15 @@ function escapeHtml(s) {
 
     const details = document.createElement('div');
     details.className = 'recipe-details';
+
+    // Show category tag at top of details only if category is set
+    const cat = recipe.category ? recipe.category.trim() : '';
+    if (cat) {
+        const catTag = document.createElement('div');
+        catTag.className = 'recipe-category-tag';
+        catTag.innerHTML = `<span>${escapeHtml(cat)}</span>`;
+        details.appendChild(catTag);
+    }
 
     // Ingredients
     const ingH = document.createElement('h3'); ingH.textContent = 'Ingredients';
@@ -228,8 +317,26 @@ function escapeHtml(s) {
         if (cardEl !== card) cardEl.classList.remove('open');
       });
       // toggle current
-      if (isOpen) card.classList.remove('open'); else card.classList.add('open');
+      if (isOpen) {
+        card.classList.remove('open');
+      } else {
+        card.classList.add('open');
+      }
+      // If user clicks the header while open, also enter fullscreen to take over the stage
+      if (card.classList.contains('open')) {
+        enterFullscreen(card);
+      }
     });
+
+    // add a close control (hidden until fullscreen)
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'close-fullscreen';
+    closeBtn.type = 'button';
+    closeBtn.title = 'Close fullscreen';
+    closeBtn.textContent = 'Close';
+    closeBtn.style.display = 'none';
+    card.appendChild(closeBtn);
+    closeBtn.addEventListener('click', (ev) => { ev.stopPropagation(); exitFullscreen(card); });
 
     function formatQty(n) {
       if (n == null || n === '') return '';
@@ -265,22 +372,139 @@ function escapeHtml(s) {
 
     delBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      // delete immediately without confirmation (per user request)
-      recipes.splice(index, 1);
-      saveRecipes(recipes);
-      renderRecipes();
+      // show an on-screen confirmation modal (non-blocking)
+      showConfirm({
+        title: 'Delete recipe',
+        message: `Delete "${escapeHtml(recipe.name || 'this recipe')}"? This cannot be undone.`,
+        confirmText: 'Delete',
+        cancelText: 'Cancel',
+          onConfirm() {
+            // if this card is currently fullscreen, exit fullscreen first to clear body state
+            const fs = document.querySelector('.recipe-card.fullscreen');
+            if (fs) exitFullscreen(fs);
+            recipes.splice(index, 1);
+            saveRecipes(recipes);
+            renderRecipes();
+          }
+      });
     });
 
     return card;
   }
 
+  function getAllCategories() {
+    const set = new Set();
+    recipes.forEach((r, i) => {
+      if (i === 0) return; // skip featured for collection of category buttons (but could include)
+      const c = (r.category || 'Uncategorized').trim() || 'Uncategorized';
+      set.add(c);
+    });
+    return Array.from(set).sort();
+  }
+
+  function renderCategoryBar(container) {
+    // container is the recipesList parent (we'll insert at top)
+    let bar = document.getElementById('categoryBar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'categoryBar';
+      bar.style.display = 'flex';
+      bar.style.flexWrap = 'wrap';
+      bar.style.gap = '0.5rem';
+      bar.style.marginTop = '0.6rem';
+      container.parentNode.insertBefore(bar, container);
+    }
+    bar.innerHTML = '';
+    const cats = getAllCategories();
+    // Add 'All' control
+    const allBtn = document.createElement('button');
+    allBtn.className = 'cat-box' + (activeCategory === null ? ' active' : '');
+    allBtn.textContent = 'All';
+    allBtn.addEventListener('click', () => { activeCategory = null; renderRecipes(); });
+    bar.appendChild(allBtn);
+
+    cats.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'cat-box' + (activeCategory === c ? ' active' : '');
+      b.textContent = c;
+      b.addEventListener('click', () => { activeCategory = c; renderRecipes(); });
+      bar.appendChild(b);
+    });
+  }
+
+  function enterFullscreen(card) {
+    // close any other fullscreen cards
+    Array.from(document.querySelectorAll('.recipe-card.fullscreen')).forEach(c => {
+      if (c !== card) exitFullscreen(c);
+    });
+    card.classList.add('fullscreen');
+    document.body.classList.add('fullscreen-active');
+    // show close control
+    const b = card.querySelector('.close-fullscreen'); if (b) b.style.display = 'block';
+    // trap focus minimally by focusing the close button
+    const cb = card.querySelector('.close-fullscreen'); if (cb) { cb.focus(); lastFocused = document.activeElement; }
+  }
+
+  function exitFullscreen(card) {
+    if (!card) return;
+    card.classList.remove('fullscreen');
+    document.body.classList.remove('fullscreen-active');
+    const b = card.querySelector('.close-fullscreen'); if (b) b.style.display = 'none';
+    // restore focus
+    if (lastFocused) try { lastFocused.focus(); } catch (e) {}
+  }
+
+  // ESC to close fullscreen
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') {
+      const fs = document.querySelector('.recipe-card.fullscreen');
+      if (fs) exitFullscreen(fs);
+    }
+  });
+
   function renderRecipes() {
+    // clear any leftover fullscreen state to avoid UI being blocked
+    document.body.classList.remove('fullscreen-active');
+    Array.from(document.querySelectorAll('.recipe-card.fullscreen')).forEach(c => c.classList.remove('fullscreen'));
     recipesList.innerHTML = '';
     if (!recipes.length) {
       recipesList.innerHTML = '<p class="hint">No recipes yet — click "Add Recipe" to create one.</p>';
       return;
     }
-    recipes.forEach((r, i) => recipesList.appendChild(createRecipeCard(r, i)));
+    // render category bar (tabs) at the top
+    renderCategoryBar(recipesList);
+
+    // if a category filter is active, show only recipes in that category
+    if (activeCategory) {
+      const filtered = recipes.map((r, i) => ({ r, i })).filter(e => {
+        const cat = (e.r.category || 'Uncategorized').trim() || 'Uncategorized';
+        return cat === activeCategory;
+      });
+      if (!filtered.length) {
+        recipesList.innerHTML = '<p class="hint">No recipes in this category.</p>';
+        return;
+      }
+      filtered.forEach(entry => {
+        const card = createRecipeCard(entry.r, entry.i);
+        recipesList.appendChild(card);
+      });
+      return;
+    }
+
+    // ALL view: show all recipes in a single list (no featured separation)
+    recipes.forEach((r, i) => {
+      const card = createRecipeCard(r, i);
+      recipesList.appendChild(card);
+    });
+    // Ensure only the first recipe is open (main) and the rest are closed
+    const allCards = Array.from(recipesList.querySelectorAll('.recipe-card'));
+    allCards.forEach((c, idx) => {
+      if (idx === 0) {
+        c.classList.add('open', 'featured');
+      } else {
+        c.classList.remove('open', 'featured');
+      }
+    });
   }
 
   // seed a demo recipe if none exist (safe, local only)
