@@ -19,6 +19,21 @@ function escapeHtml(s) {
   const ingredientsContainer = document.getElementById('ingredientsContainer');
   const cancelRecipeBtn = document.getElementById('cancelRecipeBtn');
 
+
+//filterbuttons nd stuff
+// Filter elements
+  const filterRecipesBtn = document.getElementById('filterRecipesBtn');
+  const filterRecipesPanel = document.getElementById('filterRecipesPanel');
+  const filterByAllergies = document.getElementById('filterByAllergies');
+  const filterByPreferences = document.getElementById('filterByPreferences');
+  const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+  const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+
+  let activeFilters = {
+    allergies: false,
+    preferences: false
+  };
+
   function loadRecipes() {
     try {
       return JSON.parse(localStorage.getItem(RECIPES_KEY) || '[]');
@@ -30,6 +45,68 @@ function escapeHtml(s) {
   }
 
   let recipes = loadRecipes();
+  //newly added starts here
+  function getCurrentUser() {
+    try {
+      return JSON.parse(localStorage.getItem('currentUser'));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Check recipe for allergens
+function checkRecipeForAllergens(recipe) {
+    const user = getCurrentUser();
+    if (!user || !user.allergies) return { safe: true, foundAllergens: [] };
+
+    const allUserAllergens = [...user.allergies];
+    if (user.otherAllergies) {
+      allUserAllergens.push(...user.otherAllergies.split(',').map(a => a.trim()).filter(a => a));
+    }
+
+    const foundAllergens = [];
+    const recipeIngredients = (recipe.ingredients || []).map(ing => 
+      (ing.name || '').toLowerCase()
+    ).join(' ');
+
+    allUserAllergens.forEach(allergen => {
+      // Check for singular and plural forms, case-insensitive
+      const allergenLower = allergen.toLowerCase();
+      const allergenSingular = allergenLower.replace(/s$/, ''); // Remove trailing 's'
+      
+      if (recipeIngredients.includes(allergenLower) || 
+          recipeIngredients.includes(allergenSingular)) {
+        foundAllergens.push(allergen);
+      }
+    });
+
+    return {
+      safe: foundAllergens.length === 0,
+      foundAllergens
+    };
+  }
+
+  // Filter button handlers
+  filterRecipesBtn.addEventListener('click', () => {
+    const isHidden = filterRecipesPanel.style.display === 'none';
+    filterRecipesPanel.style.display = isHidden ? 'block' : 'none';
+  });
+
+  applyFiltersBtn.addEventListener('click', () => {
+    activeFilters.allergies = filterByAllergies.checked;
+    activeFilters.preferences = filterByPreferences.checked;
+    renderRecipes();
+  });
+
+  clearFiltersBtn.addEventListener('click', () => {
+    filterByAllergies.checked = false;
+    filterByPreferences.checked = false;
+    activeFilters.allergies = false;
+    activeFilters.preferences = false;
+    renderRecipes();
+  });
+
+  //newly added ends here
 
   function openRecipeModal(prefill) {
     recipeBackdrop.style.display = 'flex';
@@ -66,7 +143,7 @@ function escapeHtml(s) {
       let qty = '', unit = '', name = '';
       if (typeof ing === 'string') {
         // try to parse leading number and unit
-        const m = String(ing).trim().match(/^\s*([\d\.\/]+)\s*([^\s\d]+)?\s*(.*)$/);
+        const m = String(ing).trim().match(/^\s*([\d\.\/]+)\s*([^\s\d]+)?\s*(.*)$/); //regex goes crazy
         if (m) {
           qty = m[1] || '';
           unit = m[2] || '';
@@ -136,7 +213,32 @@ function escapeHtml(s) {
     closeRecipeModal();
   });
 
-  function createRecipeCard(recipe, index) {
+  // function createRecipeCard(recipe, index) {
+  //   const card = document.createElement('article');
+  //   card.className = 'recipe-card';
+
+  //   const header = document.createElement('div');
+  //   header.className = 'recipe-header';
+
+  //   const thumb = document.createElement('div');
+  //   thumb.className = 'recipe-thumb';
+  //   if (recipe.image) {
+  //     const img = document.createElement('img'); img.src = recipe.image; img.alt = recipe.name;
+  //     thumb.appendChild(img);
+  //   } else {
+  //     thumb.textContent = recipe.name || '?';
+  //   }
+
+  //   const title = document.createElement('div');
+  //   title.className = 'recipe-title';
+  //   title.innerHTML = `<strong>${escapeHtml(recipe.name || 'Untitled')}</strong>`;
+
+  //   header.appendChild(thumb);
+  //   header.appendChild(title);
+  //   card.appendChild(header);
+
+
+  function createRecipeCard(recipe, index, allergenInfo) {
     const card = document.createElement('article');
     card.className = 'recipe-card';
 
@@ -155,6 +257,14 @@ function escapeHtml(s) {
     const title = document.createElement('div');
     title.className = 'recipe-title';
     title.innerHTML = `<strong>${escapeHtml(recipe.name || 'Untitled')}</strong>`;
+    
+    // Add allergen warning badge if applicable
+    if (!allergenInfo.safe) {
+      const warning = document.createElement('span');
+      warning.style.cssText = 'background:#ff4444;color:white;padding:2px 8px;border-radius:4px;font-size:0.75rem;margin-left:8px;';
+      warning.textContent = '⚠️ Contains Allergens';
+      title.appendChild(warning);
+    }
 
     header.appendChild(thumb);
     header.appendChild(title);
@@ -162,6 +272,19 @@ function escapeHtml(s) {
 
     const details = document.createElement('div');
     details.className = 'recipe-details';
+
+    // Allergen warning in details
+    if (!allergenInfo.safe) {
+      const allergenWarning = document.createElement('div');
+      allergenWarning.style.cssText = 'background:#fff3cd;border:1px solid #ffc107;padding:0.75rem;border-radius:4px;margin-bottom:1rem;';
+      allergenWarning.innerHTML = `<strong style="color:#856404;">⚠️ Warning:</strong> Contains ${allergenInfo.foundAllergens.join(', ')}`;
+      details.appendChild(allergenWarning);
+    }
+
+    //everything below this comment in this card wasnt changed
+
+    // const details = document.createElement('div');
+    // details.className = 'recipe-details';
 
     // Ingredients
     const ingH = document.createElement('h3'); ingH.textContent = 'Ingredients';
@@ -268,13 +391,76 @@ function escapeHtml(s) {
     return card;
   }
 
+  // function renderRecipes() {
+  //   recipesList.innerHTML = '';
+  //   if (!recipes.length) {
+  //     recipesList.innerHTML = '<p class="hint">No recipes yet — click "Add Recipe" to create one.</p>';
+  //     return;
+  //   }
+  //   recipes.forEach((r, i) => recipesList.appendChild(createRecipeCard(r, i)));
+  // }
   function renderRecipes() {
     recipesList.innerHTML = '';
+    
     if (!recipes.length) {
       recipesList.innerHTML = '<p class="hint">No recipes yet — click "Add Recipe" to create one.</p>';
       return;
     }
-    recipes.forEach((r, i) => recipesList.appendChild(createRecipeCard(r, i)));
+
+    const safeRecipes = [];
+    const unsafeRecipes = [];
+
+    recipes.forEach((r, i) => {
+      const allergenInfo = checkRecipeForAllergens(r);
+      const recipeData = { recipe: r, index: i, allergenInfo };
+      
+      if (allergenInfo.safe) {
+        safeRecipes.push(recipeData);
+      } else {
+        unsafeRecipes.push(recipeData);
+      }
+    });
+
+    // Apply filters
+    let recipesToShow = [...safeRecipes, ...unsafeRecipes];
+    
+    if (activeFilters.allergies) {
+      recipesToShow = safeRecipes; // Only show safe recipes
+    }
+
+    if (recipesToShow.length === 0) {
+      recipesList.innerHTML = '<p class="hint">No recipes match your filters.</p>';
+      return;
+    }
+
+    // Render safe recipes first
+    const safeToShow = recipesToShow.filter(r => r.allergenInfo.safe);
+    const unsafeToShow = recipesToShow.filter(r => !r.allergenInfo.safe);
+
+    safeToShow.forEach(({ recipe, index, allergenInfo }) => {
+      recipesList.appendChild(createRecipeCard(recipe, index, allergenInfo));
+    });
+
+    
+// Seperator for unsafe recipes
+    if (unsafeToShow.length > 0 && !activeFilters.allergies) {
+      const separator = document.createElement('div');
+      separator.style.cssText = 'grid-column: 1 / -1; margin:2rem 0 1rem; padding:1rem; background:#fff3cd; border-left:4px solid #ff4444; border-radius:8px;';
+      separator.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+          <span style="font-size:1.5rem;">⚠️</span>
+          <h3 style="color:#856404;font-size:1.3rem;margin:0;font-weight:600;">
+            Recipes Containing Allergens
+          </h3>
+          <span style="font-size:1.5rem;">⚠️</span>
+        </div>
+      `;
+      recipesList.appendChild(separator);
+
+      unsafeToShow.forEach(({ recipe, index, allergenInfo }) => {
+        recipesList.appendChild(createRecipeCard(recipe, index, allergenInfo));
+      });
+    }
   }
 
   // seed a demo recipe if none exist (safe, local only)

@@ -8,6 +8,40 @@
 </head>
 
 <body>
+<<<<<<< HEAD
+=======
+    <div class="navigation">
+        <a href="profile.html">
+            <div>
+                <img src="user.png" alt="Profile" />
+                <p>Profile</p>
+            </div>
+        </a>
+        <a href="fridge.html">
+            <div class="selected">
+                <img src="fridge.png" alt="Fridge">
+                <p>Inventory</p>
+            </div>
+        </a>
+
+        <a href="shopping.html">
+            <div>
+                <img src="shopping.png" alt="Shopping">
+                <p>Shopping</p>
+            </div>
+        </a>
+
+        <a href="recipes.html">
+            <div>
+                <img src="recipe.png" alt="Recipes">
+                <p>Recipes</p>
+            </div>
+        </a>
+
+
+    </div>
+
+>>>>>>> origin/main
     <div class="title-group">
         <h1>
             Shopping List
@@ -29,6 +63,24 @@
                 </button>
             </div>
         </header>
+
+        <section class="card" style="margin-bottom: 16px;">
+            <div class="card-header">
+                <h2>Smart Shopping from Recipes</h2>
+            </div>
+            <p class="hint-text">
+                Select recipes you want to cook, and we'll generate a shopping list based on what you already have in inventory.
+            </p>
+            
+            <div id="recipeSelectionContainer" style="max-height: 200px; overflow-y: auto; margin-bottom: 12px;">
+                <!-- Recipe checkboxes will be populated here by JS -->
+            </div>
+            
+            <button id="generateSmartListBtn" style="width: 100%;">
+                <span class="icon"></span>
+                Generate Smart Shopping List
+            </button>
+        </section>
 
         <main>
             <div class="toolbar">

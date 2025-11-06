@@ -137,6 +137,7 @@ function createItemCard(item, index) {
     }
     if (item.amount > 0) item.amount--;
     amountEl.textContent = item.amount;
+    saveFridge(); //added recently
   });
 
   plusBtn.addEventListener('click', () => {
@@ -179,6 +180,7 @@ function openDeleteConfirm(index) {
 deleteConfirm.addEventListener('click', () => {
   if (deleteTarget !== null) {
     fridgeItems.splice(deleteTarget, 1);
+    saveFridge(); //added recently
     renderFridge();
     updateLocationSelect();
     updateOwnerSelect();
@@ -250,6 +252,8 @@ itemForm.addEventListener('submit', async (ev) => {
   } else {
     fridgeItems.unshift(newItem);
   }
+
+  saveFridge(); //added recently
 
   updateLocationSelect();
   updateOwnerSelect();
@@ -379,7 +383,7 @@ function handleRestockConfirmation(event) {
     }
   }
 
-  // ✅ Save data to localStorage (shopping page listens for this)
+  // Save data to localStorage (shopping page listens for this)
   localStorage.setItem("restockData", JSON.stringify(restockItems));
 
   // Close modal after submitting
@@ -452,13 +456,30 @@ document.addEventListener("focusout", (e) => {
 });
 
 // ============ INIT DEFAULT ITEMS ==============
-fridgeItems = [
-  { name: 'Milk', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
+// fridgeItems = [
+//   { name: 'Milk', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
+//   { name: 'Apples', amount: 6, exp: '2025-12-05', imgDataUrl: '', notes: 'Green', unit: 'pcs', location: 'Pantry', owner: 'Jordan' }
+// ];
+
+// window.addEventListener('DOMContentLoaded', () => {
+//   renderFridge();
+//   updateLocationSelect();
+//   updateOwnerSelect();
+// });
+
+fridgeItems = JSON.parse(localStorage.getItem('kk_inventory')) || [
+  { name: 'Mil', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
   { name: 'Apples', amount: 6, exp: '2025-12-05', imgDataUrl: '', notes: 'Green', unit: 'pcs', location: 'Pantry', owner: 'Jordan' }
 ];
+
+// Always save after render/update
+function saveFridge() {
+  localStorage.setItem('kk_inventory', JSON.stringify(fridgeItems));
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   renderFridge();
   updateLocationSelect();
   updateOwnerSelect();
+  saveFridge(); //added recently
 });
