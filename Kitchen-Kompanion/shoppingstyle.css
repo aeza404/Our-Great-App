@@ -125,7 +125,6 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
     background: rgb(205, 215, 209);
     color: rgb(26, 60, 41);
     box-shadow: 0 10px 22px rgba(21, 128, 61, 0.28);
@@ -273,7 +272,6 @@
   .item-checkbox input {
     width: 20px;
     height: 20px;
-    cursor: pointer;
   }
   
   .item-main {
@@ -341,7 +339,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     box-shadow: none;
   }
 
@@ -395,7 +392,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
   }
   
   .modal-close:hover {
@@ -464,7 +460,6 @@
     border: 1px solid rgba(148, 163, 184, 0.28);
     padding: 8px 10px;
     background: #f9fafb;
-    cursor: pointer;
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -496,7 +491,7 @@
     color: #0f172a;
   }
   
-  /* Popup */ 
+  /* popup */ 
   .toast {
     position: fixed;
     bottom: 20px;
