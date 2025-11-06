@@ -10,11 +10,6 @@ const profileForm = document.getElementById('profileForm');
 const profileHeader = document.getElementById('profileHeader');
 let selectedIndex = null;
 
-// Contact button
-document.getElementById('myButton').addEventListener('click', () => {
-  alert('Calling Kitchen Kompanion Support at (555) 123-4567');
-});
-
 // Save to localStorage helper
 function saveMembers() {
   localStorage.setItem("householdMembers", JSON.stringify(householdMembers));
