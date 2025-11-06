@@ -66,7 +66,7 @@
   .app-shell {
     width: 100%;
     max-width: 1200px;
-    margin: 35px auto 22px;
+    margin: 25px auto 22px;
     background: rgba(137, 143, 140, 0.578);
     backdrop-filter: blur(18px);
     border-radius: 12px;
@@ -203,13 +203,24 @@
   
   .card {
     background: white;
-    height: 380px;
+    height: 350px;
     border-radius: 15px;
     border: 1px solid rgba(148, 163, 184, 0.18);
     padding: 18px 18px 14px;
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
     max-height: calc(100vh - 220px); 
     overflow-y: auto;
+  }
+
+  .card2 {
+    background: white;
+    height: 220px;
+    border-radius: 15px;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    padding: 18px 18px 14px;
+    max-height: calc(100vh - 220px); 
+    overflow-y: auto;
+
   }
   
   .card-header {
