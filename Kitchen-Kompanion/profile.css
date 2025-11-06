@@ -1,662 +1,694 @@
 :root {
-    --bg: #f6f8fa;
-    --card: #ffffff;
-    --accent: #1976d2;
-    --muted: #6b6f76;
-    --glass: rgba(0,0,0,0.06);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  }
-  
-  body {
-    font-family: 'Times New Roman', Times, serif;
-    background-color: rgb(150, 195, 187);
-    height: 960px;
-    width: 640px;
-    margin: 0 auto; /* center horizontally */
-    position: relative; /* for positioning child elements */
-  }
-  
-  
-  
-  /* Bottom navigation bar */
-  .navigation {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    display: flex;
-    justify-content: space-around; /* items spread evenly */
-    align-items: center; /* makes each item fill full height */
-    background-color: rgb(101, 162, 174);
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
-    padding: 0; /* remove default padding so spacing is consistent */
-  }
-  
-  /* Each link takes equal space */
-  .navigation a {
-    flex: 1; /* each link is equal width */
-    text-decoration: none;
-    font-size: 27px;
-    color: black;
-    font-weight: bold;
-    display: flex; /* so its child div can center nicely */
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* full nav height */
-  }
-  
-  /* Inner div styling */
-  .navigation a div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%; /* fill parent link width */
-    height: 100%;
-    box-sizing: border-box;
-    padding: 5px;
-    transition: background-color 0.2s ease;
-  }
-  
-  /* Optional hover effect */
-  .navigation a div:hover {
-    background-color: rgb(15, 87, 102);
-  }
-  
-  /* Icon styling */
-  .navigation img {
-    width: 50px;
-    height: 60px;
-    margin-top: 22px;
-    filter: brightness(0) invert(1);
-  }
-  
-  .fridge {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  .item {
-    background: var(--card);
-    border-radius: 10px;
-    padding: 0.6rem;
-    box-shadow: 0 6px 18px rgba(15,15,15,0.04);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: stretch;
-  }
-  
-  .thumb {
-    width: 100%;
-    height: 110px;
-    border-radius: 8px;
-    background: linear-gradient(180deg, #f2f2f2, #e9eef6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  
-  .thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  
-  .meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-  
-  .meta strong {
-    color: #222;
-    font-size: 0.95rem;
-  }
-  
-  /* Add button */
-  .controls {
-    margin-left: auto;
-  }
-  
-  .btn {
-    background: var(--accent);
-    color: #fff;
-    border: 0;
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    box-shadow: 0 6px 12px rgba(25,118,210,0.12);
-  }
-  
-  .btn.ghost {
-    background: transparent;
-    color: var(--accent);
-    box-shadow: none;
-    border: 1px solid rgba(25,118,210,0.12);
-  }
-  
-  /* Modal */
-  .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.35);
-    z-index: 40;
-  }
-  
-  .modal {
-    width: min(640px, 95vw);
-    background: var(--card);
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 20px 50px rgba(2,6,23,0.25);
-  }
-  
-  .modal h2 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.05rem;
-  }
-  
+  --bg: #f6f8fa;
+  --card: #ffffff;
+  --accent: #1976d2;
+  --muted: #6b6f76;
+  --glass: rgba(0,0,0,0.06);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background-color: rgb(150, 195, 187);
+  height: 960px;
+  width: 640px;
+  margin: 0 auto; /* center horizontally */
+  position: relative; /* for positioning child elements */
+}
+
+
+
+/* Bottom navigation bar */
+.navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  justify-content: space-around; /* items spread evenly */
+  align-items: center; /* makes each item fill full height */
+  background-color: rgb(101, 162, 174);
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+  padding: 0; /* remove default padding so spacing is consistent */
+}
+
+/* Each link takes equal space */
+.navigation a {
+  flex: 1; /* each link is equal width */
+  text-decoration: none;
+  font-size: 27px;
+  color: black;
+  font-weight: bold;
+  display: flex; /* so its child div can center nicely */
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* full nav height */
+}
+
+/* Inner div styling */
+.navigation a div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* fill parent link width */
+  height: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  transition: background-color 0.2s ease;
+}
+
+/* Optional hover effect */
+.navigation a div:hover {
+  background-color: rgb(15, 87, 102);
+}
+
+/* Icon styling */
+.navigation img {
+  width: 50px;
+  height: 60px;
+  margin-top: 22px;
+  filter: brightness(0) invert(1);
+}
+
+.fridge {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.item {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 0.6rem;
+  box-shadow: 0 6px 18px rgba(15,15,15,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.thumb {
+  width: 100%;
+  height: 110px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f2f2f2, #e9eef6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.meta strong {
+  color: #222;
+  font-size: 0.95rem;
+}
+
+/* Add button */
+.controls {
+  margin-left: auto;
+}
+
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 12px rgba(25,118,210,0.12);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--accent);
+  box-shadow: none;
+  border: 1px solid rgba(25,118,210,0.12);
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.35);
+  z-index: 40;
+}
+
+.modal {
+  width: min(640px, 95vw);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 20px 50px rgba(2,6,23,0.25);
+}
+
+.modal h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.form-row > * {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+@media (max-width:480px) {
   .form-row {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.6rem;
+    flex-direction: column;
   }
-  
-  .form-row > * {
-    flex: 1;
+  .thumb {
+    height: 90px;
   }
-  
-  label {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-bottom: 0.25rem;
-  }
-  
-  input[type="text"],
-  input[type="number"],
-  input[type="date"],
-  input[type="file"],
-  textarea {
-    width: 100%;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #e6e9ee;
-    background: #fff;
-    box-sizing: border-box;
-  }
-  
-  .modal-foot {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  
-  .hint {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-top: 0.25rem;
-  }
-  
-  @media (max-width:480px) {
-    .form-row {
-      flex-direction: column;
-    }
-    .thumb {
-      height: 90px;
-    }
-  }
-  
+}
+
+#myButton {
+  /* Pin the button to the bottom of the viewport and center it horizontally.
+     It's placed above the fixed bottom navigation (which is 120px high). */
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(120px + 16px); /* nav height (120px) + gap */
+  z-index: 200; /* above navigation */
+  padding: 12px 22px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 28px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+}
+
+/* Smaller screens: keep the button readable and spaced from nav */
+@media (max-width: 480px) {
   #myButton {
-    /* Pin the button to the bottom of the viewport and center it horizontally.
-       It's placed above the fixed bottom navigation (which is 120px high). */
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: calc(120px + 16px); /* nav height (120px) + gap */
-    z-index: 200; /* above navigation */
-    padding: 12px 22px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 28px;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+    padding: 10px 18px;
+    font-size: 15px;
+    bottom: calc(120px + 12px);
   }
-  
-  /* Smaller screens: keep the button readable and spaced from nav */
-  @media (max-width: 480px) {
-    #myButton {
-      padding: 10px 18px;
-      font-size: 15px;
-      bottom: calc(120px + 12px);
-    }
-  }
-  
-  /* Recipes cards */
-  .recipes-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-  }
-  
-  .recipe-card {
-    /* Use same green as Contact Us button */
-    background: #4CAF50;
-    color: #fff;
-    border-radius: 10px;
-    padding: 0.5rem;
-    box-shadow: 0 8px 18px rgba(2,6,23,0.06);
-    overflow: hidden;
-  }
-  
-  .recipe-header {
-    display: flex;
-    flex-direction: column; /* stack thumbnail above title */
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    text-align: center;
-  }
-  
-  .recipe-thumb {
-    width: 100%;
-    height: 140px;
-    border-radius: 8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-    font-weight:700;
-    color:#fff;
-    /* make placeholder/thumb readable on green background */
-    background: rgba(255,255,255,0.12);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.45);
-  }
-  
-  .recipe-thumb img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block
-  }
-  
-  .recipe-title {
-    flex:1;
-    margin-top:0.25rem;
-  }
-  
-  .recipe-details {
-    margin-top:0.6rem;
-    padding-top:0.4rem;
-    border-top:1px solid rgba(255,255,255,0.12);
-  }
-  
-  /* Hide details by default; show when .open on card */
-  .recipe-card .recipe-details { display: none !important }
-  .recipe-card.open .recipe-details { display: block !important }
-  
-  .ingredients-list{margin:0 0 0.6rem 1rem;color:rgba(255,255,255,0.95)}
-  .procedures{white-space:pre-wrap;color:rgba(255,255,255,0.95)}
-  .recipe-actions{display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.6rem}
-  
-  /* Buttons inside recipe card should contrast */
-  .recipe-card .btn { background: rgba(255,255,255,0.12); color: #fff; box-shadow: none }
-  .recipe-card .btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.24) }
-  .btn.small{padding:0.25rem 0.5rem;font-size:0.85rem}
-  
-  /* Make Add Recipe button match Contact Us color */
-  #addRecipeBtn {
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
-  }
-  
-  /* Profile Page Styles */
-  .profile-section {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 6px 18px rgba(15,15,15,0.04);
-  }
-  
-  .profile-section h2 {
-    margin: 0 0 1rem 0;
-    font-size: 1.3rem;
-    color: #222;
-  }
-  
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .section-header h2 {
-    margin: 0;
-  }
-  
-  .preferences-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .preference-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    background: #f6f8fa;
-    border-radius: 8px;
-    border: 1px solid #e6e9ee;
-  }
-  
-  .preference-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-  
-  .member-card .preference-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .delete-btn {
-    padding: 0.25rem 0.5rem !important;
-    font-size: 1.2rem !important;
-    line-height: 1 !important;
-    min-width: auto !important;
-  }
-  
-  /* Toggle switches */
-  .preferences-toggles {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-  
-  .toggle-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem;
-    background: #f6f8fa;
-    border-radius: 8px;
-    border: 1px solid #e6e9ee;
-  }
-  
-  .toggle-item label {
-    margin: 0;
-    font-weight: 600;
-    color: #222;
-    cursor: pointer;
-  }
-  
-  .toggle-switch {
-    width: 50px;
-    height: 26px;
-    appearance: none;
-    background: #ccc;
-    border-radius: 13px;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .toggle-switch:checked {
-    background: var(--accent);
-  }
-  
-  .toggle-switch::before {
-    content: '';
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: white;
-    top: 2px;
-    left: 2px;
-    transition: left 0.3s ease;
-  }
-  
-  .toggle-switch:checked::before {
-    left: 26px;
-  }
-  
-  /* Form groups for recipe preferences */
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-  
-  .form-group input[type="number"],
-  .form-group select {
-    width: 100%;
-    max-width: 200px;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #e6e9ee;
-    background: #fff;
-    box-sizing: border-box;
-  }
-  
-  /* Checkbox groups in modals */
-  .checkbox-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  
-  .checkbox-group label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: #222;
-    cursor: pointer;
-  }
-  
-  .checkbox-group input[type="checkbox"] {
-    cursor: pointer;
-  }
-  
-  
-  
-  /* Member Profile Cards - Clickable with Avatars */
-  .members-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-  
-  .member-profile-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: #f6f8fa;
-    border-radius: 10px;
-    border: 2px solid #e6e9ee;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: relative;
-  }
-  
-  .member-profile-card:hover {
-    border-color: var(--accent);
-    background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transform: translateY(-2px);
-  }
-  
-  .member-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), #4CAF50);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-  }
-  
-  .member-info {
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .member-name {
-    font-size: 1.1rem;
-    color: #222;
-    display: block;
-    margin-bottom: 0.25rem;
-  }
-  
-  .member-details {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.4;
-  }
-  
-  .member-profile-card .delete-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  
-  .member-profile-card:hover .delete-btn {
-    opacity: 1;
-  }
-  
-  /* Simple Profile Page Styles */
-  .profile-section {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  }
-  
-  .profile-section h2 {
-    margin: 0 0 1rem 0;
-    font-size: 1.2rem;
-    color: #222;
-    font-weight: bold;
-  }
-  
-  .profile-input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e6e9ee;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-  
-  .checkbox-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .checkbox-list label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1rem;
-    color: #222;
-    cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 6px;
-  }
-  
-  .checkbox-list label:hover {
-    background: #f6f8fa;
-  }
-  
-  .checkbox-list input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
-  
-  /* Household Members */
-  .members-list {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .member-card {
-    background: #f6f8fa;
-    border: 2px solid #e6e9ee;
-    border-radius: 10px;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .member-info strong {
-    display: block;
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: #222;
-  }
-  
-  .member-info p {
-    margin: 0.25rem 0;
-    font-size: 0.9rem;
-    color: #666;
-  }
-  
-  .delete-btn {
-    background: transparent;
-    border: none;
-    color: #F44336;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-    min-width: 30px;
-  }
-  
-  .delete-btn:hover {
-    color: #d32f2f;
-  }
+}
+
+/* Recipes cards */
+.recipes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.recipe-card {
+  /* Use same green as Contact Us button */
+  background: #4CAF50;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.5rem;
+  box-shadow: 0 8px 18px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+
+.recipe-header {
+  display: flex;
+  flex-direction: column; /* stack thumbnail above title */
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.recipe-thumb {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-weight:700;
+  color:#fff;
+  /* make placeholder/thumb readable on green background */
+  background: rgba(255,255,255,0.12);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+}
+
+.recipe-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+
+.recipe-title {
+  flex:1;
+  margin-top:0.25rem;
+}
+
+.recipe-details {
+  margin-top:0.6rem;
+  padding-top:0.4rem;
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+
+/* Hide details by default; show when .open on card */
+.recipe-card .recipe-details { display: none !important }
+.recipe-card.open .recipe-details { display: block !important }
+
+.ingredients-list{margin:0 0 0.6rem 1rem;color:rgba(255,255,255,0.95)}
+.procedures{white-space:pre-wrap;color:rgba(255,255,255,0.95)}
+.recipe-actions{display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.6rem}
+
+/* Buttons inside recipe card should contrast */
+.recipe-card .btn { background: rgba(255,255,255,0.12); color: #fff; box-shadow: none }
+.recipe-card .btn.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.24) }
+.btn.small{padding:0.25rem 0.5rem;font-size:0.85rem}
+
+/* Make Add Recipe button match Contact Us color */
+#addRecipeBtn {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Profile Page Styles */
+.profile-section {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 18px rgba(15,15,15,0.04);
+}
+
+.profile-section h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  color: #222;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+.preferences-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.preference-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f6f8fa;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+}
+
+.preference-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.member-card .preference-content {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.delete-btn {
+  padding: 0.25rem 0.5rem !important;
+  font-size: 1.2rem !important;
+  line-height: 1 !important;
+  min-width: auto !important;
+}
+
+/* Toggle switches */
+.preferences-toggles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.toggle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f6f8fa;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+}
+
+.toggle-item label {
+  margin: 0;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.toggle-switch {
+  width: 50px;
+  height: 26px;
+  appearance: none;
+  background: #ccc;
+  border-radius: 13px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.toggle-switch:checked {
+  background: var(--accent);
+}
+
+.toggle-switch::before {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  left: 2px;
+  transition: left 0.3s ease;
+}
+
+.toggle-switch:checked::before {
+  left: 26px;
+}
+
+/* Form groups for recipe preferences */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  max-width: 200px;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+/* Checkbox groups in modals */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #222;
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  cursor: pointer;
+}
+
+
+
+/* Member Profile Cards - Clickable with Avatars */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.member-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f6f8fa;
+  border-radius: 10px;
+  border: 2px solid #e6e9ee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.member-profile-card:hover {
+  border-color: var(--accent);
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+.member-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #4CAF50);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.member-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.member-name {
+  font-size: 1.1rem;
+  color: #222;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.member-details {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.member-profile-card .delete-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.member-profile-card:hover .delete-btn {
+  opacity: 1;
+}
+
+/* Simple Profile Page Styles */
+.profile-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profile-section h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: #222;
+  font-weight: bold;
+}
+
+.profile-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e6e9ee;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.checkbox-list label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: #222;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.checkbox-list label:hover {
+  background: #f6f8fa;
+}
+
+.checkbox-list input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Household Members */
+.members-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.member-card {
+  background: #f6f8fa;
+  border: 2px solid #e6e9ee;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.member-info strong {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.member-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #F44336;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  min-width: 30px;
+}
+
+.delete-btn:hover {
+  color: #d32f2f;
+}
+
+
+
+
+
+
+
+
+
+
+
+
