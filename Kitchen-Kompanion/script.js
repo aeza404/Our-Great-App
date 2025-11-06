@@ -468,7 +468,7 @@ document.addEventListener("focusout", (e) => {
 // });
 
 fridgeItems = JSON.parse(localStorage.getItem('kk_inventory')) || [
-  { name: 'Mil', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
+  { name: 'Milk', amount: 4, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
   { name: 'Apples', amount: 6, exp: '2025-12-05', imgDataUrl: '', notes: 'Green', unit: 'pcs', location: 'Pantry', owner: 'Jordan' }
 ];
 
