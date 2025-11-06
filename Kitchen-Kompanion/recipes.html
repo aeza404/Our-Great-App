@@ -10,6 +10,14 @@
 <body>
 
     <div class="navigation">
+
+                <a href="profile.html">
+            <div>
+                <img src="user.png" alt="Profile" />
+                <p>Profile</p>
+            </div>
+        </a>
+
         <a href="fridge.html">
             <div class="selected">
                 <img src="fridge.png" alt="Fridge">
@@ -31,12 +39,7 @@
             </div>
         </a>
 
-        <a href="profile.html">
-            <div>
-                <img src="user.png" alt="Profile" />
-                <p>Profile</p>
-            </div>
-        </a>
+
 
     </div>
     
@@ -45,9 +48,28 @@
                 <header style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
                         <h1 style="margin:0">Recipes</h1>
                         <div>
+                                <button id="filterRecipesBtn" class="btn">Filter Recipes</button>
                                 <button id="addRecipeBtn" class="btn">Add Recipe</button>
                         </div>
                 </header>
+
+<div id="filterRecipesPanel" class="filter-panel" style="display:none;margin-top:1rem;padding:1rem;background:var(--card-bg);border-radius:8px;">
+    <h3 style="margin-top:0;font-size:1.5rem;">Filter by:</h3>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem;">
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:1.3rem;">
+            <input type="checkbox" id="filterByAllergies" style="width:20px;height:20px;cursor:pointer;">
+            <span>Show only safe recipes (filter allergens)</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:1.3rem;">
+            <input type="checkbox" id="filterByPreferences" style="width:20px;height:20px;cursor:pointer;">
+            <span>Filter by dietary preferences</span>
+        </label>
+    </div>
+    <div style="display:flex;gap:0.5rem;">
+        <button id="applyFiltersBtn" class="btn">Apply Filters</button>
+        <button id="clearFiltersBtn" class="btn ghost">Clear Filters</button>
+    </div>
+</div>
 
                 <div id="recipesList" class="recipes-list" aria-live="polite" style="margin-top:1rem;">
                     <!-- Placeholder; actual message is rendered by script if empty -->

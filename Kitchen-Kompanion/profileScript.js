@@ -1,5 +1,5 @@
-// Simple hardcoded members
-let householdMembers = [
+// Load from localStorage or use default hardcoded members
+let householdMembers = JSON.parse(localStorage.getItem("householdMembers")) || [
   { name: "Dad", allergies: ["Peanuts"], preferences: [], otherAllergies: "", otherPrefs: "" },
   { name: "Mom", allergies: [], preferences: ["Vegetarian"], otherAllergies: "", otherPrefs: "" },
   { name: "Emma", allergies: ["Shellfish"], preferences: ["Gluten-Free"], otherAllergies: "", otherPrefs: "" }
@@ -14,6 +14,11 @@ let selectedIndex = null;
 document.getElementById('myButton').addEventListener('click', () => {
   alert('Calling Kitchen Kompanion Support at (555) 123-4567');
 });
+
+// Save to localStorage helper
+function saveMembers() {
+  localStorage.setItem("householdMembers", JSON.stringify(householdMembers));
+}
 
 // Modal handlers
 document.getElementById('addMemberBtn').addEventListener('click', () => {
@@ -36,6 +41,8 @@ document.getElementById('saveMemberBtn').addEventListener('click', () => {
   const otherPrefs = document.getElementById('newOtherPrefs').value.trim();
 
   householdMembers.push({ name, allergies, preferences, otherAllergies, otherPrefs });
+  saveMembers(); // <-- Save right after adding
+
   document.getElementById('memberModal').style.display = 'none';
   clearMemberForm();
   renderMemberList();
@@ -69,8 +76,8 @@ function renderMemberList() {
 
     card.innerHTML = `
       <strong>${member.name}</strong>
-      <p>🚫 ${allergyList.length ? allergyList.join(', ') : 'None'}</p>
-      <p>🍽️ ${prefList.length ? prefList.join(', ') : 'None'}</p>
+      <p>${allergyList.length ? allergyList.join(', ') : 'None'}</p>
+      <p>${prefList.length ? prefList.join(', ') : 'None'}</p>
     `;
     card.addEventListener('click', () => selectMember(index));
     memberList.appendChild(card);
@@ -82,9 +89,8 @@ function selectMember(index) {
   selectedIndex = index;
   const member = householdMembers[index];
 
-  //loacally store a member 
+  // Store selected member for possible use elsewhere
   localStorage.setItem("currentUser", JSON.stringify(member));
-
 
   profileHeader.textContent = `${member.name}'s Profile`;
   profileForm.style.display = 'block';
@@ -107,6 +113,7 @@ document.getElementById('saveProfileBtn').addEventListener('click', () => {
   member.otherAllergies = document.getElementById('otherAllergies').value.trim();
   member.otherPrefs = document.getElementById('otherPrefs').value.trim();
 
+  saveMembers(); // <-- Save after editing
   profileHeader.textContent = `${member.name}'s Profile`;
   renderMemberList();
 });
@@ -116,6 +123,7 @@ document.getElementById('deleteMemberBtn').addEventListener('click', () => {
   if (selectedIndex === null) return;
   householdMembers.splice(selectedIndex, 1);
   selectedIndex = null;
+  saveMembers(); // <-- Save after deleting
   profileHeader.textContent = 'My Profile';
   profileForm.style.display = 'none';
   renderMemberList();
