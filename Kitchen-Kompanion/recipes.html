@@ -48,6 +48,7 @@
                 <header style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
                         <h1 style="margin:0">Recipes</h1>
                         <div>
+                                <button id="smartShoppingBtn" class="btn">Smart Shopping</button>
                                 <button id="filterRecipesBtn" class="btn">Filter Recipes</button>
                                 <button id="addRecipeBtn" class="btn">Add Recipe</button>
                         </div>
@@ -113,8 +114,29 @@
             </div>
         </div>
 
+        <!-- Smart Shopping Modal -->
+<div id="smartShoppingBackdrop" class="modal-backdrop" aria-hidden="true" style="display:none;">
+    <div class="modal" role="dialog" aria-modal="true">
+        <h2>Smart Shopping from Recipes</h2>
+        <p style="color:#64748b;margin-bottom:1rem;">
+            Select recipes you want to cook, and we'll generate a shopping list based on what you already have in inventory.
+        </p>
+        
+        <div id="recipeSelectionContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem;">
+            <!-- Recipe checkboxes will be populated here by JS -->
+        </div>
+        
+        <div class="modal-foot">
+            <button type="button" id="cancelSmartShoppingBtn" class="btn ghost">Cancel</button>
+            <button type="button" id="generateSmartListBtn" class="btn">Generate Shopping List</button>
+        </div>
+    </div>
+</div>
+
+
         <button id="myButton">Contact Us</button>
         <script src="script2.js"></script>
+        <script src="recipeScript.js"></script>
 </body>
 
 </html>
