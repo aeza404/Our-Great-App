@@ -15,6 +15,7 @@ body {
   padding-right: 29px;
   width: 870px;
   margin: 0 auto; 
+  padding-bottom: 140px;
   position: relative; /* for positioning child elements */
 }  
 /* Bottom navigation bar */
@@ -69,9 +70,14 @@ body {
 
 .fridge {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1.65rem;        
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 2 per row */
+  gap: 3rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  padding-right: 2.5rem; /* keep right padding */
+  padding-left: 1rem; /* remove left padding */
+  padding-bottom: 50px; /* to clear fixed nav */
+  box-sizing: border-box;
 }
 
 .item {
@@ -190,11 +196,13 @@ h1 {
   width:150px;
   box-shadow: none;
   background: white;
+  margin-right: 2.5rem;
 }
 
 #filterPanel {
   order: 3;
   width: 100%;
+  margin-right: 2.5rem;
 }
 
 .btn {
@@ -377,4 +385,11 @@ main::-webkit-scrollbar-thumb {
   color: #fff;
   border: none;
   box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* Ensure the body can always scroll fully */
+html, body {
+  height: auto;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
