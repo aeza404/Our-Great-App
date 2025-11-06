@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kitchen Kompanion - Profile</title>
+  <link rel="stylesheet" href="profile.css" />
+</head>
+
+<body>
+  <header>
+    <h1 id="profileHeader">My Profile</h1>
+  </header>
+
+  <main>
+    <!-- Household Members -->
+    <section class="profile-section">
+      <h2>Household Members</h2>
+      <div id="memberList" class="members-list"></div>
+    </section>
+
+    <!-- Editable Profile -->
+    <section id="profileForm" class="profile-section" style="display:none;">
+      <h2>Name</h2>
+      <input type="text" id="userName" class="profile-input" placeholder="Enter name" />
+
+      <h2>My Allergies</h2>
+      <div class="checkbox-list" id="myAllergies">
+        <label><input type="checkbox" class="my-allergy" value="Peanuts"> Peanuts</label>
+        <label><input type="checkbox" class="my-allergy" value="Tree Nuts"> Tree Nuts</label>
+        <label><input type="checkbox" class="my-allergy" value="Dairy"> Dairy</label>
+        <label><input type="checkbox" class="my-allergy" value="Eggs"> Eggs</label>
+        <label><input type="checkbox" class="my-allergy" value="Soy"> Soy</label>
+        <label><input type="checkbox" class="my-allergy" value="Wheat"> Wheat</label>
+        <label><input type="checkbox" class="my-allergy" value="Fish"> Fish</label>
+        <label><input type="checkbox" class="my-allergy" value="Shellfish"> Shellfish</label>
+      </div>
+      <label>Other Allergies:</label>
+      <input type="text" id="otherAllergies" class="profile-input" placeholder="Enter any other allergies" />
+
+      <h2>Dietary Preferences</h2>
+      <div class="checkbox-list" id="myPrefs">
+        <label><input type="checkbox" class="my-pref" value="Vegetarian"> Vegetarian</label>
+        <label><input type="checkbox" class="my-pref" value="Vegan"> Vegan</label>
+        <label><input type="checkbox" class="my-pref" value="Gluten-Free"> Gluten-Free</label>
+        <label><input type="checkbox" class="my-pref" value="Dairy-Free"> Dairy-Free</label>
+        <label><input type="checkbox" class="my-pref" value="Low-Sodium"> Low-Sodium</label>
+        <label><input type="checkbox" class="my-pref" value="Kosher"> Kosher</label>
+        <label><input type="checkbox" class="my-pref" value="Halal"> Halal</label>
+      </div>
+      <label>Other Preferences:</label>
+      <input type="text" id="otherPrefs" class="profile-input" placeholder="Enter any other preferences" />
+
+      <div class="modal-foot" style="padding-top:12px;">
+        <button id="saveProfileBtn" class="btn">Save Changes</button>
+        <button id="deleteMemberBtn" class="btn ghost">Delete Member</button>
+      </div>
+    </section>
+
+    <!-- Add Member -->
+    <section class="profile-section">
+      <h2>Add Someone New</h2>
+      <button id="addMemberBtn" class="btn">+ Add Member</button>
+    </section>
+  </main>
+
+  <!-- Add Member Modal -->
+  <div id="memberModal" class="modal-backdrop" style="display:none;">
+    <div class="modal">
+      <h2>Add Household Member</h2>
+
+      <label>Name</label>
+      <input type="text" id="newMemberName" placeholder="e.g., Emma" />
+
+      <label>Allergies</label>
+      <div class="checkbox-list">
+        <label><input type="checkbox" class="member-allergy" value="Peanuts"> Peanuts</label>
+        <label><input type="checkbox" class="member-allergy" value="Tree Nuts"> Tree Nuts</label>
+        <label><input type="checkbox" class="member-allergy" value="Dairy"> Dairy</label>
+        <label><input type="checkbox" class="member-allergy" value="Shellfish"> Shellfish</label>
+        <label><input type="checkbox" class="member-allergy" value="Soy"> Soy</label>
+      </div>
+      <label>Other Allergies:</label>
+      <input type="text" id="newOtherAllergies" placeholder="Enter any other allergies" />
+
+      <label>Dietary Preferences</label>
+      <div class="checkbox-list">
+        <label><input type="checkbox" class="member-pref" value="Vegetarian"> Vegetarian</label>
+        <label><input type="checkbox" class="member-pref" value="Vegan"> Vegan</label>
+        <label><input type="checkbox" class="member-pref" value="Gluten-Free"> Gluten-Free</label>
+      </div>
+      <label>Other Preferences:</label>
+      <input type="text" id="newOtherPrefs" placeholder="Enter any other preferences" />
+
+      <div class="modal-foot">
+        <button id="cancelMemberBtn" class="btn ghost">Cancel</button>
+        <button id="saveMemberBtn" class="btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="navigation">
+    <a href="profile.html"><div class="selected"><img src="user.png" alt="Profile" /><p>Profile</p></div></a>
+    <a href="fridge.html"><div><img src="fridge.png" alt="Fridge" /><p>Fridge</p></div></a>
+    <a href="shopping.html"><div><img src="shopping.png" alt="Shopping" /><p>Shopping</p></div></a>
+    <a href="recipes.html"><div><img src="recipe.png" alt="Recipes" /><p>Recipes</p></div></a>
+  </div>
+
+  <button id="myButton">Contact Us</button>
+
+  <script src="profileScript.js"></script>
+</body>
+</html>
