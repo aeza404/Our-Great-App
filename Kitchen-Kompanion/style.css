@@ -68,7 +68,8 @@ body {
 .navigation img {
   width: 50px;
   height: 60px;
-  margin-top: 22px
+  margin-top: 22px;
+  filter: brightness(0) invert(1);
 }
 
 .fridge {
