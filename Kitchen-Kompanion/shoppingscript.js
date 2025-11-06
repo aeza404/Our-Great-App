@@ -246,7 +246,7 @@ const builtInTemplates = [
 
   // items operations
   function addItem(data) {
-    state.items.push({
+    state.items.unshift({
       id: generateId(),
       name: data.name.trim(),
       quantity: (data.quantity || "").trim(),
@@ -615,3 +615,51 @@ const builtInTemplates = [
         setTimeout(() => fakeKeyboard.classList.remove("active"), 200);
     }
     });
+
+    // =======================
+// Handle restocked items from fridge
+// =======================
+function handleRestockedItems() {
+  const raw = localStorage.getItem("restockData");
+  if (!raw) return;
+
+  let restockItems;
+  try {
+    restockItems = JSON.parse(raw);
+    if (!Array.isArray(restockItems)) return;
+  } catch {
+    return;
+  }
+
+  restockItems.forEach((item) => {
+    // Check if item already exists in shopping list
+    const existing = state.items.find(
+      (i) => i.name.toLowerCase() === item.name.toLowerCase()
+    );
+    if (existing) {
+      existing.quantity = `${parseInt(existing.quantity || 0) + item.quantity}`;
+    } else {
+      addItem({
+        name: item.name,
+        quantity: item.quantity.toString(),
+        category: item.category || "",
+        requestedBy: item.requestedBy || "",
+      });
+    }
+  });
+
+  showToast("Restocked items added to your grocery list ✅");
+
+  // Clear localStorage key so we don't duplicate
+  localStorage.removeItem("restockData");
+}
+
+// Run once on page load in case fridge saved data before shopping cart loaded
+document.addEventListener("DOMContentLoaded", handleRestockedItems);
+
+// Optional: Listen for localStorage changes if multiple tabs/windows
+window.addEventListener("storage", (e) => {
+  if (e.key === "restockData" && e.newValue) {
+    handleRestockedItems();
+  }
+});

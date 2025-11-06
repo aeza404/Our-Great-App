@@ -331,12 +331,6 @@ function handleRestockSelection(event) {
 
   const selected = [...event.target.querySelectorAll('input[name="item"]:checked')]
     .map(input => input.value);
-
-  if (selected.length === 0) {
-    alert('Please select at least one item.');
-    return;
-  }
-
   showRestockScreen2(selected);
 }
 
@@ -349,7 +343,6 @@ function showRestockScreen2(selectedItems) {
           <label><strong>${name}</strong></label>
           <div class="form-row">
             <input type="number" name="quantity-${name}" min="1" value="1" required>
-            <input type="text" name="brand-${name}" placeholder="(IDK if we even need this box here, but adding incase the shopping list needs more parameter inputs other than item name and count)">
           </div>
         </div>
       `).join('')}
@@ -368,6 +361,30 @@ function showRestockScreen2(selectedItems) {
 
 //Screen 3:
 //need to see how shopping list is implemented before finishing add to grocery button
+// Screen 3: finalize and add to shopping list
+function handleRestockConfirmation(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const formData = new FormData(form);
+  const restockItems = [];
+
+  // Loop through form inputs
+  for (const [key, value] of formData.entries()) {
+    if (key.startsWith("quantity-")) {
+      const name = key.replace("quantity-", "");
+      const quantity = parseInt(value, 10) || 1;
+      const brand = formData.get(`brand-${name}`) || "";
+      restockItems.push({ name, quantity, brand });
+    }
+  }
+
+  // ✅ Save data to localStorage (shopping page listens for this)
+  localStorage.setItem("restockData", JSON.stringify(restockItems));
+
+  // Close modal after submitting
+  closeRestockModal();
+}
 
 
 // ============ FILTERS & SORTING ==============
