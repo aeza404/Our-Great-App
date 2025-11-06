@@ -1,9 +1,3 @@
-const contact = document.getElementById("myButton");
-let lastFocused = null;
-contact.addEventListener("click", () => {
-    alert("Calling Kitchen Kompanion Support at (555) 123-4567");
-});
-
 // small utility used when injecting values into HTML attributes
 function escapeHtml(s) {
   return String(s).replace(/[&<>\"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
