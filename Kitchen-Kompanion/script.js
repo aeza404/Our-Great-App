@@ -305,7 +305,7 @@ function showRestockScreen1() {
   restockContent.innerHTML = `
     <h2>Smart Restock</h2>
     <p>Selected items that are low and you might want to replace <br>
-    Select items to restock and click next.:</p>
+    Select items to restock and click next:</p>
     <form id="restockForm">
       ${lowItems.map((item, i) => `
         <div>

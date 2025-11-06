@@ -240,9 +240,15 @@ h1 {
 
 .modal h2 {
   margin: 0 0 0.5rem 0;
-  font-size: 1.05rem;
+  font-size: 1.85rem;
 }
 
+/* Smart Restock modal text styling */
+#restockContent {
+  font-size: 1.2rem; /* base text size */
+  line-height: 1.57rem;
+  color: #1b1b1b;
+}
 .form-row {
   display: flex;
   gap: 0.5rem;
@@ -251,7 +257,7 @@ h1 {
 
 label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 1.45rem;
   color: var(--muted);
   margin-bottom: 0.25rem;
 }
@@ -263,6 +269,7 @@ input[type="file"],
 textarea {
   width: 100%;
   padding: 0.5rem;
+  font-size: 1.23rem;
   border-radius: 8px;
   border: 1px solid #e6e9ee;
   background: #fff;
@@ -276,13 +283,38 @@ textarea {
   margin-top: 0.5rem;
 }
 
+#location {
+  font-size: 1.23rem;
+  padding: 0.7rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+
+#unit {
+  font-size: 1.23rem;
+  padding: 0.7rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+}
+#location::placeholder {
+  font-size: 1.23rem;
+  color: #6b7280;
+}
+
+/* Make datalist dropdown text larger */
+#locationList option {
+  font-size: 1.25rem;
+}
+
 .hint {
   font-size: 0.8rem;
   color: var(--muted);
   margin-top: 0.25rem;
 }
-
-/* ==== Scrollbar (optional aesthetic) ==== */
 main::-webkit-scrollbar {
   width: 6px;
 }
@@ -295,11 +327,31 @@ main::-webkit-scrollbar-thumb {
   display: none;
   flex-direction: column;
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 1.43rem;
+  padding: 1.2rem 1.4rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 11px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .filter-panel.open {
   display: flex;
+}
+
+.filter-panel label {
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: rgb(26, 60, 41);
+}
+
+.filter-panel select {
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgb(239, 243, 240);
+  color: rgb(26, 60, 41);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
 }
 
 #fakeKeyboard {
