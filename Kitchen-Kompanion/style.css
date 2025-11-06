@@ -68,7 +68,8 @@ body {
 .navigation img {
   width: 50px;
   height: 60px;
-  margin-top: 22px
+  margin-top: 22px;
+  filter: brightness(0) invert(1);
 }
 
 .fridge {
@@ -326,3 +327,42 @@ textarea {
   border: none;
   box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
+
+/* ==== Scrollbar (optional aesthetic) ==== */
+main::-webkit-scrollbar {
+  width: 6px;
+}
+main::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.filter-panel {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.filter-panel.open {
+  display: flex;
+}
+
+#fakeKeyboard {
+    position: fixed;
+    bottom: -270px; /* hidden initially */
+    left: 0;
+    right: 0;
+    height: 270px;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+    border-top: 1px solid #e2e8f0;
+    transition: bottom 0.8s ease-in-out;
+    z-index: 999;
+    border-radius: 20px 20px 0 0;
+  }
+  
+  #fakeKeyboard.active {
+    bottom: 0; /* slides up */
+  }
+

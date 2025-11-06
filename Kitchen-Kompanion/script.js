@@ -4,16 +4,36 @@ const cancelBtn = document.getElementById('cancelBtn');
 const itemForm = document.getElementById('itemForm');
 const fridge = document.getElementById('fridge');
 const locationFilter = document.getElementById('locationFilter');
-let lastFocused = null;
+const ownerFilter = document.getElementById('ownerFilter');
+const sortSelect = document.getElementById('sortSelect');
+const filterToggleBtn = document.getElementById('filterToggle');
+const filterPanel = document.getElementById('filterPanel');
 
-let fridgeItems = []; // maintain items in memory
+let lastFocused = null;
+let editIndex = null; // track if editing
+let fridgeItems = [];
+
 
 // ============ MODAL HANDLERS ==============
-function openModal() {
+function openModal(existingItem = null, index = null) {
   lastFocused = document.activeElement;
   backdrop.style.display = 'flex';
   backdrop.setAttribute('aria-hidden', 'false');
   document.getElementById('name').focus();
+
+  if (existingItem) {
+    editIndex = index;
+    document.getElementById('name').value = existingItem.name;
+    document.getElementById('amount').value = existingItem.amount;
+    document.getElementById('unit').value = existingItem.unit || '';
+    document.getElementById('location').value = existingItem.location || '';
+    document.getElementById('exp').value = existingItem.exp || '';
+    document.getElementById('notes').value = existingItem.notes || '';
+    document.getElementById('owner').value = existingItem.owner || '';
+  } else {
+    editIndex = null;
+    itemForm.reset();
+  }
 }
 
 function closeModal() {
@@ -21,17 +41,19 @@ function closeModal() {
   backdrop.setAttribute('aria-hidden', 'true');
   if (lastFocused) lastFocused.focus();
   itemForm.reset();
+  editIndex = null;
 }
 
-openBtn.addEventListener('click', openModal);
+openBtn.addEventListener('click', () => openModal());
 cancelBtn.addEventListener('click', closeModal);
-backdrop.addEventListener('click', (e) => {
+backdrop.addEventListener('click', e => {
   if (e.target === backdrop) closeModal();
 });
 
-// ============ ITEM CARD CREATION ==============
+
+// ============ CREATE ITEM CARD ==============
 function createItemCard(item, index) {
-  const { name, amount, exp, imgDataUrl, notes, unit, location } = item;
+  const { name, amount, exp, imgDataUrl, notes, unit, location, owner } = item;
   const card = document.createElement('div');
   card.className = 'item';
   card.dataset.location = location || 'Unspecified';
@@ -76,6 +98,13 @@ function createItemCard(item, index) {
   loc.textContent = location ? `📍 ${location}` : '📍 Unspecified';
   card.appendChild(loc);
 
+  if (owner) {
+    const o = document.createElement('div');
+    o.className = 'location-tag';
+    o.textContent = `👤 ${owner}`;
+    card.appendChild(o);
+  }
+
   if (notes) {
     const p = document.createElement('div');
     p.style.fontSize = '0.85rem';
@@ -85,12 +114,27 @@ function createItemCard(item, index) {
     card.appendChild(p);
   }
 
-  // Add +/- functionality
+  // Add edit & delete buttons
+  const controls = document.createElement('div');
+  controls.className = 'controls';
+  controls.innerHTML = `
+    <button class="btn small ghost edit">✏️</button>
+    <button class="btn small ghost delete">🗑️</button>
+  `;
+  card.appendChild(controls);
+
+  // Logic for amount +/- and delete confirmation
   const minusBtn = left.querySelector('.minus');
   const plusBtn = left.querySelector('.plus');
   const amountEl = left.querySelector('.amount');
+  const editBtn = controls.querySelector('.edit');
+  const deleteBtn = controls.querySelector('.delete');
 
   minusBtn.addEventListener('click', () => {
+    if (item.amount === 1) {
+      openDeleteConfirm(index);
+      return;
+    }
     if (item.amount > 0) item.amount--;
     amountEl.textContent = item.amount;
   });
@@ -99,6 +143,9 @@ function createItemCard(item, index) {
     item.amount++;
     amountEl.textContent = item.amount;
   });
+
+  editBtn.addEventListener('click', () => openModal(item, index));
+  deleteBtn.addEventListener('click', () => openDeleteConfirm(index));
 
   return card;
 }
@@ -112,32 +159,66 @@ function formatDate(d) {
     const dt = new Date(d);
     if (isNaN(dt)) return '';
     return dt.toLocaleDateString();
-  } catch (e) {
+  } catch {
     return d;
   }
 }
 
-// ============ UPDATE LOCATION SELECT ==============
+
+// ============ DELETE CONFIRMATION MODAL ==============
+const deleteModal = document.getElementById('deleteModal');
+const deleteConfirm = document.getElementById('deleteConfirm');
+const deleteCancel = document.getElementById('deleteCancel');
+let deleteTarget = null;
+
+function openDeleteConfirm(index) {
+  deleteTarget = index;
+  deleteModal.style.display = 'flex';
+}
+
+deleteConfirm.addEventListener('click', () => {
+  if (deleteTarget !== null) {
+    fridgeItems.splice(deleteTarget, 1);
+    renderFridge();
+    updateLocationSelect();
+    updateOwnerSelect();
+  }
+  closeDeleteModal();
+});
+
+deleteCancel.addEventListener('click', closeDeleteModal);
+function closeDeleteModal() {
+  deleteModal.style.display = 'none';
+  deleteTarget = null;
+}
+
+// ============ UPDATE LOCATION & OWNER SELECTS ==============
 function updateLocationSelect() {
   const select = locationFilter;
-  const allLocations = new Set(['All Locations']);
-  fridgeItems.forEach(item => {
-    if (item.location && item.location.trim() !== '') {
-      allLocations.add(item.location.trim());
-    }
-  });
-
-  // Clear existing options
+  const all = new Set(['All Locations']);
+  fridgeItems.forEach(i => i.location && all.add(i.location.trim()));
   select.innerHTML = '';
-
-  // Add each location as an option
-  allLocations.forEach(loc => {
-    const option = document.createElement('option');
-    option.value = loc;
-    option.textContent = loc;
-    select.appendChild(option);
+  all.forEach(loc => {
+    const o = document.createElement('option');
+    o.value = loc;
+    o.textContent = loc;
+    select.appendChild(o);
   });
 }
+
+function updateOwnerSelect() {
+  const select = ownerFilter;
+  const all = new Set(['All Owners']);
+  fridgeItems.forEach(i => i.owner && all.add(i.owner.trim()));
+  select.innerHTML = '';
+  all.forEach(oVal => {
+    const o = document.createElement('option');
+    o.value = oVal;
+    o.textContent = oVal;
+    select.appendChild(o);
+  });
+}
+
 
 // ============ FORM SUBMISSION ==============
 itemForm.addEventListener('submit', async (ev) => {
@@ -150,6 +231,7 @@ itemForm.addEventListener('submit', async (ev) => {
   const notes = form.notes.value.trim();
   const unit = form.unit.value.trim();
   const location = form.location.value.trim();
+  const owner = form.owner.value.trim();
 
   let imgDataUrl = null;
   const file = form.image.files[0];
@@ -161,10 +243,16 @@ itemForm.addEventListener('submit', async (ev) => {
     }
   }
 
-  const newItem = { name, amount, exp, imgDataUrl, notes, unit, location };
-  fridgeItems.push(newItem);
+  const newItem = { name, amount, exp, imgDataUrl, notes, unit, location, owner };
 
-  updateLocationSelect(); // dynamically add new locations
+  if (editIndex !== null) {
+    fridgeItems[editIndex] = newItem;
+  } else {
+    fridgeItems.unshift(newItem);
+  }
+
+  updateLocationSelect();
+  updateOwnerSelect();
   renderFridge();
   closeModal();
 });
@@ -243,12 +331,6 @@ function handleRestockSelection(event) {
 
   const selected = [...event.target.querySelectorAll('input[name="item"]:checked')]
     .map(input => input.value);
-
-  if (selected.length === 0) {
-    alert('Please select at least one item.');
-    return;
-  }
-
   showRestockScreen2(selected);
 }
 
@@ -261,7 +343,6 @@ function showRestockScreen2(selectedItems) {
           <label><strong>${name}</strong></label>
           <div class="form-row">
             <input type="number" name="quantity-${name}" min="1" value="1" required>
-            <input type="text" name="brand-${name}" placeholder="(IDK if we even need this box here, but adding incase the shopping list needs more parameter inputs other than item name and count)">
           </div>
         </div>
       `).join('')}
@@ -280,34 +361,104 @@ function showRestockScreen2(selectedItems) {
 
 //Screen 3:
 //need to see how shopping list is implemented before finishing add to grocery button
+// Screen 3: finalize and add to shopping list
+function handleRestockConfirmation(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const formData = new FormData(form);
+  const restockItems = [];
+
+  // Loop through form inputs
+  for (const [key, value] of formData.entries()) {
+    if (key.startsWith("quantity-")) {
+      const name = key.replace("quantity-", "");
+      const quantity = parseInt(value, 10) || 1;
+      const brand = formData.get(`brand-${name}`) || "";
+      restockItems.push({ name, quantity, brand });
+    }
+  }
+
+  // ✅ Save data to localStorage (shopping page listens for this)
+  localStorage.setItem("restockData", JSON.stringify(restockItems));
+
+  // Close modal after submitting
+  closeRestockModal();
+}
 
 
+// ============ FILTERS & SORTING ==============
+function getFilteredAndSortedItems() {
+  const locVal = locationFilter.value.trim() || 'All Locations';
+  const ownerVal = ownerFilter.value.trim() || 'All Owners';
+  const sortVal = sortSelect.value;
 
+  let items = fridgeItems.filter(item =>
+    (locVal === 'All Locations' || (item.location && item.location.toLowerCase() === locVal.toLowerCase())) &&
+    (ownerVal === 'All Owners' || (item.owner && item.owner.toLowerCase() === ownerVal.toLowerCase()))
+  );
 
-// ============ FILTER BY LOCATION ==============
-locationFilter.addEventListener('change', () => {
-  renderFridge();
+  if (sortVal === 'expAsc') {
+    items.sort((a, b) => new Date(a.exp || 0) - new Date(b.exp || 0));
+  } else if (sortVal === 'expDesc') {
+    items.sort((a, b) => new Date(b.exp || 0) - new Date(a.exp || 0));
+  }
+
+  return items;
+}
+
+locationFilter.addEventListener('change', renderFridge);
+ownerFilter.addEventListener('change', renderFridge);
+sortSelect.addEventListener('change', renderFridge);
+
+filterToggleBtn.addEventListener('click', () => {
+  filterPanel.classList.toggle('open');
 });
+
 
 // ============ RENDER FUNCTION ==============
 function renderFridge() {
   fridge.innerHTML = '';
-  const filterVal = locationFilter.value.trim() || 'All Locations';
-
-  fridgeItems
-    .filter(item => filterVal === 'All Locations' || 
-                    (item.location && item.location.toLowerCase() === filterVal.toLowerCase()))
-    .forEach((item, index) => fridge.appendChild(createItemCard(item, index)));
+  getFilteredAndSortedItems().forEach((item, i) =>
+    fridge.appendChild(createItemCard(item, i))
+  );
 }
+
+
+// keyboard behavior
+const fakeKeyboard = document.getElementById("fakeKeyboard");
+
+document.addEventListener("focusin", (e) => {
+  const targetElement = e.target;
+  if ((targetElement.tagName === 'INPUT' &&
+      (targetElement.type === 'text' ||
+        targetElement.type === 'password' ||
+        targetElement.type === 'email' ||
+        targetElement.type === 'search' ||
+        targetElement.type === 'tel' ||
+        targetElement.type === 'url' ||
+        targetElement.type === 'number')) ||
+    targetElement.tagName === 'TEXTAREA' ||
+    targetElement.isContentEditable // For elements with contenteditable attribute
+  ) {
+    fakeKeyboard.classList.add("active");
+  }
+});
+
+document.addEventListener("focusout", (e) => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+    setTimeout(() => fakeKeyboard.classList.remove("active"), 200);
+  }
+});
 
 // ============ INIT DEFAULT ITEMS ==============
 fridgeItems = [
-  { name: 'Milk', amount: 1, exp: '', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge' },
-  { name: 'Apples', amount: 6, exp: '', imgDataUrl: '', notes: 'Green', unit: 'pcs', location: 'Pantry' }
+  { name: 'Milk', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
+  { name: 'Apples', amount: 6, exp: '2025-12-05', imgDataUrl: '', notes: 'Green', unit: 'pcs', location: 'Pantry', owner: 'Jordan' }
 ];
 
-// Ensure default filter value and select options are set on load
 window.addEventListener('DOMContentLoaded', () => {
   renderFridge();
   updateLocationSelect();
+  updateOwnerSelect();
 });

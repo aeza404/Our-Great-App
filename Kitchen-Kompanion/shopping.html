@@ -4,16 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Kitchen Kompanion</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="shoppingstyle.css">
 </head>
 
 <body>
-
     <div class="navigation">
+        <a href="profile.html">
+            <div>
+                <img src="user.png" alt="Profile" />
+                <p>Profile</p>
+            </div>
+        </a>
         <a href="fridge.html">
             <div class="selected">
                 <img src="fridge.png" alt="Fridge">
-                <p>Fridge</p>
+                <p>Inventory</p>
             </div>
         </a>
 
@@ -31,17 +36,210 @@
             </div>
         </a>
 
-        <a href="profile.html">
-            <div>
-                <img src="user.png" alt="Profile" />
-                <p>Profile</p>
-            </div>
-        </a>
 
     </div>
 
-    <button id="myButton">Contact Us</button>
-    <script src="script.js"></script>
+    <div class="title-group">
+        <h1>
+            Shopping List
+        </h1>
+        <p class="subtitle">
+            Current List:
+            <span id="currentListName" class="current-list-name">This Week’s Groceries</span>
+        </p>
+    </div>
+
+    <!-- Shopping list app -->
+    <div class="app-shell">
+        <header>
+           
+            <div class="header-actions">
+                <button id="newListBtn">
+                    <span class="icon">⭐</span>
+                    New List from Template
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="toolbar">
+                <div class="toolbar-left">
+                    <button id="addItemBtn">
+                        <span class="icon">＋</span>
+                        Add Item
+                    </button>
+                </div>
+                <div class="toolbar-right">
+                    <div class="sort-menu-wrapper">
+                        <button class="ghost" id="sortBtn">
+                            Sort by <span id="sortLabel">None</span> ▾
+                        </button>
+                        <div class="sort-menu hidden" id="sortMenu">
+                            <button type="button" data-sort="none">None</button>
+                            <button type="button" data-sort="category">Category</button>
+                            <button type="button" data-sort="requestedBy">Requested By</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <!-- Main list -->
+                <section class="card">
+                    <div class="card-header">
+                        <h2>
+                            To Buy:
+                            <span class="count-pill" id="toBuyCount">0 Items</span>
+                        </h2>
+                    </div>
+                    <p class="hint-text">
+                        Tap the checkbox while shopping to mark items as purchased. Leftovers can be moved into a new week’s list with one tap.
+                    </p>
+                    <ul id="toBuyList" class="item-list"></ul>
+                    <div id="toBuyEmpty" class="empty-state" style="display: none;">
+                        Your list is empty. Tap <strong>Add Item</strong> or <strong>Smart Restock</strong> to start.
+                    </div>
+                </section>
+
+                <!-- Purchased & templates -->
+                <section class="card">
+                    <div class="card-header">
+                        <h2>
+                            Purchased:
+                            <span class="count-pill" id="purchasedCount">0 items</span>
+                        </h2>
+                    </div>
+                    <p class="hint-text">
+                        Checked items slide down here so you can see what’s done vs. what’s left.
+                    </p>
+                    <ul id="purchasedList" class="item-list"></ul>
+                    <div id="purchasedEmpty" class="empty-state" style="display: none; font-size: 1.5rem;" >
+                        Nothing purchased yet. Tap checkboxes on the above list as you shop.
+                    </div>
+
+                    <hr style="margin: 10px 0; border: none; border-top: 1px dashed rgba(148, 163, 184, 0.4);" />
+                </section>
+            </div>
+
+            <div class="footer-actions">
+                <button class="secondary" id="saveTemplateBtn">
+                    <span class="icon">⭐</span>
+                    Save List as Template
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <div class="toast-icon">✓</div>
+        <div id="toastMessage"></div>
+    </div>
+
+    <!-- Add / Edit Item Modal -->
+    <div id="itemModalBackdrop" class="modal-backdrop" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="itemModalTitle">Add Item</h3>
+                <button class="modal-close" type="button" data-close-item-modal>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="itemForm">
+                    <input type="hidden" id="itemId" />
+                    <div class="form-field">
+                        <label for="itemNameInput">Item name</label>
+                        <input type="text" id="itemNameInput" placeholder="Greek yogurt" required />
+                    </div>
+                    <div class="form-field">
+                        <label for="itemQtyInput">Quantity</label>
+                        <input type="text" id="itemQtyInput" placeholder="4" />
+                    </div>
+                    <div class="form-field">
+                        <label for="itemCategoryInput">Category</label>
+                        <select id="itemCategoryInput">
+                            <option value="">Select a Category</option>
+                            <option value="Produce">Produce</option>
+                            <option value="Dairy">Dairy</option>
+                            <option value="Bakery">Bakery</option>
+                            <option value="Meat & Seafood">Meat & Seafood</option>
+                            <option value="Pantry">Pantry</option>
+                            <option value="Frozen">Frozen</option>
+                            <option value="Snacks">Snacks</option>
+                            <option value="Beverages">Beverages</option>
+                            <option value="Household">Household</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="itemRequestedByInput">Requested By
+                            <span style="color: #94a3b8; font-weight: 400;">(optional)</span>
+                        </label>
+                        <input type="text" id="itemRequestedByInput" placeholder="Roommate, Kids…" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="ghost" type="button" data-close-item-modal>Cancel</button>
+                <button type="submit" form="itemForm">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- save a new template modal -->
+    <div id="templateSaveModalBackdrop" class="modal-backdrop" style="display: none;">
+        <div class="modal">
+        <div class="modal-header">
+            <h3>Save List as Template</h3>
+            <button class="modal-close" type="button" data-close-template-save-modal>✕</button>
+        </div>
+        <div class="modal-body">
+            <p id="templateSaveInfo" style="margin: 0 0 8px; font-size: 1.5rem; color: #64748b;">
+            <!-- js will fill this with counts -->
+            </p>
+            <form id="templateSaveForm">
+            <div class="form-field">
+                <label for="templateNameInput">New List Name</label>
+                <input
+                type="text"
+                id="templateNameInput"
+                placeholder="Back-to-School Groceries"
+                required
+                />
+            </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="ghost" type="button" data-close-template-save-modal>Cancel</button>
+            <button type="submit" form="templateSaveForm">Save Template</button>
+        </div>
+        </div>
+    </div>
+
+    <!-- new template modal -->
+    <div id="templateModalBackdrop" class="modal-backdrop" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Use a Shopping Template</h3>
+                <button class="modal-close" type="button" data-close-template-modal>✕</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin: 0 0 4px; font-size: 1.32rem;">
+                    Choose a template to instantly pre-fill your new shopping list. You can still edit everything.
+                </p>
+                <div class="template-grid" id="templateGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="ghost" type="button" data-close-template-modal>Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- keyboard simulation -->
+    <div id="fakeKeyboard"></div>
+    <script src="shoppingscript.js"></script>
 </body>
 
 </html>
