@@ -50,11 +50,6 @@
     transition: background-color 0.2s ease;
   }
   
-  /* Optional hover effect */
-  .navigation a div:hover {
-    background-color: rgb(15, 87, 102);
-  }
-  
   /* Icon styling */
   .navigation img {
     width: 50px;
