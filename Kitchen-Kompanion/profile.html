@@ -14,13 +14,20 @@
   <main>
     <!-- Household Members -->
     <section class="profile-section">
-      <h2>Household Members</h2>
+      <div class="profile-section-header">
+        <h2>Household Members</h2>
+        <button id="addMemberBtn" class="btn">+ Add Member</button>
+      </div>
       <div id="memberList" class="members-list"></div>
     </section>
 
     <!-- Editable Profile -->
     <section id="profileForm" class="profile-section" style="display:none;">
-      <h2>Name</h2>
+      <div class="profile-form-header">
+        <h2>Name</h2>
+        <button id="closeProfileFormBtn" class="btn ghost small">✕</button>
+      </div>
+
       <input type="text" id="userName" class="profile-input" placeholder="Enter name" />
 
       <h2>My Allergies</h2>
@@ -34,6 +41,7 @@
         <label><input type="checkbox" class="my-allergy" value="Fish"> Fish</label>
         <label><input type="checkbox" class="my-allergy" value="Shellfish"> Shellfish</label>
       </div>
+
       <label>Other Allergies:</label>
       <input type="text" id="otherAllergies" class="profile-input" placeholder="Enter any other allergies" />
 
@@ -47,6 +55,7 @@
         <label><input type="checkbox" class="my-pref" value="Kosher"> Kosher</label>
         <label><input type="checkbox" class="my-pref" value="Halal"> Halal</label>
       </div>
+
       <label>Other Preferences:</label>
       <input type="text" id="otherPrefs" class="profile-input" placeholder="Enter any other preferences" />
 
@@ -54,12 +63,6 @@
         <button id="saveProfileBtn" class="btn">Save Changes</button>
         <button id="deleteMemberBtn" class="btn ghost">Delete Member</button>
       </div>
-    </section>
-
-    <!-- Add Member -->
-    <section class="profile-section">
-      <h2>Add Someone New</h2>
-      <button id="addMemberBtn" class="btn">+ Add Member</button>
     </section>
   </main>
 
@@ -105,6 +108,9 @@
     <a href="shopping.html"><div><img src="shopping.png" alt="Shopping" /><p>Shopping</p></div></a>
     <a href="recipes.html"><div><img src="recipe.png" alt="Recipes" /><p>Recipes</p></div></a>
   </div>
+
+  <!-- Fake keyboard -->
+  <div id="fakeKeyboard"></div>
 
   <script src="profileScript.js"></script>
 </body>

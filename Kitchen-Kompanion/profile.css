@@ -1,15 +1,177 @@
-body {
-  font-family: 'Times New Roman', Times, serif;
-  background-color: rgb(150, 195, 187);
-  height: 960px;
-  width: 640px;
-  margin: 0 auto; /* center horizontally */
-  position: relative; /* for positioning child elements */
+:root {
+  --bg: rgb(150, 195, 187);
+  --card: #ffffff;
+  --accent: rgb(101, 162, 174);
+  --muted: #3e4b48;
 }
 
+/* Base layout */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: var(--bg);
+  width: 870px;
+  margin: 0 auto;
+  color: #1a1a1a;
+}
 
+/* Header */
+header {
+  text-align: left;
+  margin-top: 30px;
+  margin-left: 30px;
+}
 
-/* Bottom navigation bar */
+#profileHeader {
+  font-size: 4.2rem;
+  margin: 0 0 8px 0;
+}
+
+/* Headings */
+h2 {
+  font-size: 1.8rem;
+  color: #1b2a28;
+  margin: 16px 0 10px;
+}
+
+/* Sections (cards) */
+.profile-section {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin: 20px 30px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.1);
+}
+
+/* Member cards */
+.members-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.member-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+  cursor: pointer;
+  min-width: 200px;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.member-card strong {
+  display: block;
+  font-size: 1.35rem;
+  margin-bottom: 4px;
+}
+
+/* Labels & text */
+label {
+  display: block;
+  font-size: 1.25rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+/* Text inputs / fields */
+.profile-input,
+input[type="text"],
+textarea {
+  width: 100%;
+  font-size: 1.25rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+input::placeholder,
+textarea::placeholder {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+/* Checkbox lists */
+.checkbox-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 10px;
+}
+
+.checkbox-list label {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  color: #1a1a1a;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.35);
+  margin-right: 10px;
+  accent-color: rgb(69, 132, 113);
+}
+
+.btn {
+  border-radius: 999px;
+  margin-bottom: 14px;
+  border: none;
+  padding: 10px 14px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgb(205, 215, 209);
+  color: rgb(26, 60, 41);
+}
+
+.profile-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Modal styles */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.modal {
+  width: min(640px, 90vw);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.6rem 1.8rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+
+.modal h2 {
+  font-size: 1.8rem;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+/* Modal footer */
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  margin-top: 0.1rem;
+}
+
 .navigation {
   position: fixed;
   bottom: 0;
@@ -24,7 +186,6 @@ body {
   padding: 0; /* remove default padding so spacing is consistent */
 }
 
-/* Each link takes equal space */
 .navigation a {
   flex: 1; /* each link is equal width */
   text-decoration: none;
@@ -37,7 +198,6 @@ body {
   height: 100%; /* full nav height */
 }
 
-/* Inner div styling */
 .navigation a div {
   display: flex;
   flex-direction: column;
@@ -50,377 +210,55 @@ body {
   transition: background-color 0.2s ease;
 }
 
-/* Optional hover effect */
-.navigation a div:hover {
-  background-color: rgb(15, 87, 102);
-}
-
 /* Icon styling */
 .navigation img {
   width: 50px;
   height: 60px;
-  margin-top: 22px;
   filter: brightness(0) invert(1);
+  margin-top: 22px
 }
 
-.btn {
-  background: var(--accent);
-  color: #622121;
-  border: 0;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 6px 12px rgba(25,118,210,0.12);
+.selected p {
+  font-weight: 800;
 }
 
-.btn.ghost {
-  background: transparent;
-  color: var(--accent);
+/* Header row inside Household Members section */
+.profile-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Edit profile header row with close button */
+.profile-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Small button variant (for top-right buttons like Add / ✕) */
+.btn.small {
+  padding: 0.35rem 1.1rem;
+  font-size: 1.1rem;
   box-shadow: none;
-  border: 1px solid rgba(25,118,210,0.12);
 }
 
-/* Profile Page Styles */
-.profile-section {
-  background: var(--card);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 6px 18px rgba(15,15,15,0.04);
-}
-
-.profile-section h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.3rem;
-  color: #222;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.section-header h2 {
-  margin: 0;
-}
-
-.preferences-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.preference-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
-  background: #f6f8fa;
-  border-radius: 8px;
-  border: 1px solid #e6e9ee;
-}
-
-.preference-content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.member-card .preference-content {
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.delete-btn {
-  padding: 0.25rem 0.5rem !important;
-  font-size: 1.2rem !important;
-  line-height: 1 !important;
-  min-width: auto !important;
-}
-
-/* Toggle switches */
-.preferences-toggles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.toggle-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
-  background: #f6f8fa;
-  border-radius: 8px;
-  border: 1px solid #e6e9ee;
-}
-
-.toggle-item label {
-  margin: 0;
-  font-weight: 600;
-  color: #222;
-  cursor: pointer;
-}
-
-.toggle-switch {
-  width: 50px;
-  height: 26px;
-  appearance: none;
-  background: #ccc;
-  border-radius: 13px;
-  position: relative;
-  cursor: pointer;
-}
-
-.toggle-switch:checked {
-  background: var(--accent);
-}
-
-.toggle-switch::before {
-  content: '';
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+/* Fake keyboard bar like other pages */
+#fakeKeyboard {
+  position: fixed;
+  bottom: -270px; /* hidden initially */
+  left: 0;
+  right: 0;
+  height: 270px;
   background: white;
-  top: 2px;
-  left: 2px;
-  transition: left 0.3s ease;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.25);
+  border-top: 1px solid #e2e8f0;
+  transition: bottom 0.8s ease-in-out;
+  z-index: 999;
+  border-radius: 20px 20px 0 0;
 }
 
-.toggle-switch:checked::before {
-  left: 26px;
+#fakeKeyboard.active {
+  bottom: 0; /* slides up */
 }
-
-/* Form groups for recipe preferences */
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.9rem;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.form-group input[type="number"],
-.form-group select {
-  width: 100%;
-  max-width: 200px;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #e6e9ee;
-  background: #fff;
-  box-sizing: border-box;
-}
-
-/* Checkbox groups in modals */
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.checkbox-group label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #222;
-  cursor: pointer;
-}
-
-.checkbox-group input[type="checkbox"] {
-  cursor: pointer;
-}
-
-
-
-/* Member Profile Cards - Clickable with Avatars */
-.members-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-.member-profile-card {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: #f6f8fa;
-  border-radius: 10px;
-  border: 2px solid #e6e9ee;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.member-profile-card:hover {
-  border-color: var(--accent);
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  transform: translateY(-2px);
-}
-
-.member-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent), #4CAF50);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.member-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.member-name {
-  font-size: 1.1rem;
-  color: #222;
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.member-details {
-  font-size: 0.85rem;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-.member-profile-card .delete-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.member-profile-card:hover .delete-btn {
-  opacity: 1;
-}
-
-/* Simple Profile Page Styles */
-.profile-section {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.profile-section h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.2rem;
-  color: #222;
-  font-weight: bold;
-}
-
-.profile-input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e6e9ee;
-  border-radius: 8px;
-  font-size: 1rem;
-  box-sizing: border-box;
-}
-
-.checkbox-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.checkbox-list label {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1rem;
-  color: #222;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 6px;
-}
-
-.checkbox-list label:hover {
-  background: #f6f8fa;
-}
-
-.checkbox-list input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-/* Household Members */
-.members-list {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.member-card {
-  background: #f6f8fa;
-  border: 2px solid #e6e9ee;
-  border-radius: 10px;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.member-info strong {
-  display: block;
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: #222;
-}
-
-.member-info p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.delete-btn {
-  background: transparent;
-  border: none;
-  color: #F44336;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-  min-width: 30px;
-}
-
-.delete-btn:hover {
-  color: #d32f2f;
-}
-
-
-
-
-
-
-
-
-
-
-
-

@@ -10,17 +10,12 @@ const profileForm = document.getElementById('profileForm');
 const profileHeader = document.getElementById('profileHeader');
 let selectedIndex = null;
 
-// Contact button
-document.getElementById('myButton').addEventListener('click', () => {
-  alert('Calling Kitchen Kompanion Support at (555) 123-4567');
-});
-
 // Save to localStorage helper
 function saveMembers() {
   localStorage.setItem("householdMembers", JSON.stringify(householdMembers));
 }
 
-// Modal handlers
+// Modal handlers – Add member
 document.getElementById('addMemberBtn').addEventListener('click', () => {
   document.getElementById('memberModal').style.display = 'flex';
   document.getElementById('newMemberName').focus();
@@ -41,7 +36,7 @@ document.getElementById('saveMemberBtn').addEventListener('click', () => {
   const otherPrefs = document.getElementById('newOtherPrefs').value.trim();
 
   householdMembers.push({ name, allergies, preferences, otherAllergies, otherPrefs });
-  saveMembers(); // <-- Save right after adding
+  saveMembers();
 
   document.getElementById('memberModal').style.display = 'none';
   clearMemberForm();
@@ -75,12 +70,21 @@ function renderMemberList() {
     if (member.otherPrefs) prefList.push(member.otherPrefs);
 
     card.innerHTML = `
-      <strong>${member.name}</strong>
+      <strong>✏️ ${member.name}</strong>
       <p>${allergyList.length ? allergyList.join(', ') : 'None'}</p>
       <p>${prefList.length ? prefList.join(', ') : 'None'}</p>
     `;
     card.addEventListener('click', () => selectMember(index));
     memberList.appendChild(card);
+
+    card.addEventListener('click', () => selectMember(index));
+
+    // Prevent checkbox clicks from opening the popup
+    card.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('click', (e) => e.stopPropagation());
+});
+
+memberList.appendChild(card);
   });
 }
 
@@ -89,7 +93,6 @@ function selectMember(index) {
   selectedIndex = index;
   const member = householdMembers[index];
 
-  // Store selected member for possible use elsewhere
   localStorage.setItem("currentUser", JSON.stringify(member));
 
   profileHeader.textContent = `${member.name}'s Profile`;
@@ -113,7 +116,7 @@ document.getElementById('saveProfileBtn').addEventListener('click', () => {
   member.otherAllergies = document.getElementById('otherAllergies').value.trim();
   member.otherPrefs = document.getElementById('otherPrefs').value.trim();
 
-  saveMembers(); // <-- Save after editing
+  saveMembers();
   profileHeader.textContent = `${member.name}'s Profile`;
   renderMemberList();
 });
@@ -123,10 +126,37 @@ document.getElementById('deleteMemberBtn').addEventListener('click', () => {
   if (selectedIndex === null) return;
   householdMembers.splice(selectedIndex, 1);
   selectedIndex = null;
-  saveMembers(); // <-- Save after deleting
+  saveMembers();
   profileHeader.textContent = 'My Profile';
   profileForm.style.display = 'none';
   renderMemberList();
+});
+
+// Close edit profile "popup"
+const closeProfileFormBtn = document.getElementById('closeProfileFormBtn');
+if (closeProfileFormBtn) {
+  closeProfileFormBtn.addEventListener('click', () => {
+    profileForm.style.display = 'none';
+    profileHeader.textContent = 'My Profile';
+    selectedIndex = null;
+  });
+}
+
+// --- Fake keyboard behavior for text inputs / textareas ---
+const fakeKeyboard = document.getElementById('fakeKeyboard');
+
+document.addEventListener('focusin', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    if (fakeKeyboard) fakeKeyboard.classList.add('active');
+  }
+});
+
+document.addEventListener('focusout', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    setTimeout(() => {
+      if (fakeKeyboard) fakeKeyboard.classList.remove('active');
+    }, 150);
+  }
 });
 
 // Init
