@@ -616,9 +616,6 @@ const builtInTemplates = [
     }
     });
 
-    // =======================
-// Handle restocked items from fridge
-// =======================
 function handleRestockedItems() {
   const raw = localStorage.getItem("restockData");
   if (!raw) return;
@@ -665,9 +662,6 @@ window.addEventListener("storage", (e) => {
 });
 
 
-// =======================
-// Handle smart shopping items from recipes
-// =======================
 function handleSmartShoppingItems() {
   const raw = localStorage.getItem("smart_shopping_items");
   if (!raw) return;
