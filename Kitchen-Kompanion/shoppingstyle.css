@@ -50,11 +50,6 @@
     transition: background-color 0.2s ease;
   }
   
-  /* Optional hover effect */
-  .navigation a div:hover {
-    background-color: rgb(15, 87, 102);
-  }
-  
   /* Icon styling */
   .navigation img {
     width: 50px;
@@ -66,7 +61,7 @@
   .app-shell {
     width: 100%;
     max-width: 1200px;
-    margin: 25px auto 22px;
+    margin-top: 55px;
     background: rgba(137, 143, 140, 0.578);
     backdrop-filter: blur(18px);
     border-radius: 12px;
@@ -131,12 +126,18 @@
     box-shadow: 0 10px 22px rgba(21, 128, 61, 0.28);
   }
   
-  button.ghost {
-    background:#f6f8fa;
+  .sortBtn {
     border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.4);
-    box-shadow: none;
-    padding-inline: 12px;
+    margin-bottom: 14px;
+    border: none;
+    padding: 10px 14px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgb(205, 215, 209);
+    color: rgb(26, 60, 41);
   }
   
   main {
@@ -405,11 +406,7 @@
     align-items: center;
     justify-content: center;
   }
-  
-  .modal-close:hover {
-    background: rgba(148, 163, 184, 0.15);
-  }
-  
+
   .modal-body {
     font-size: 1.4rem;
     margin-bottom: 10px;

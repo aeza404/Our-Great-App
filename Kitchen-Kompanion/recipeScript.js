@@ -1,7 +1,3 @@
-// =======================
-// SMART SHOPPING FROM RECIPES
-// =======================
-
 function loadRecipes() {
   try {
     return JSON.parse(localStorage.getItem('kk_recipes') || '[]');
