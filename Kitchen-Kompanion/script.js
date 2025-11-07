@@ -13,8 +13,6 @@ let lastFocused = null;
 let editIndex = null; // track if editing
 let fridgeItems = [];
 
-
-// ============ MODAL HANDLERS ==============
 function openModal(existingItem = null, index = null) {
   lastFocused = document.activeElement;
   backdrop.style.display = 'flex';
@@ -50,8 +48,6 @@ backdrop.addEventListener('click', e => {
   if (e.target === backdrop) closeModal();
 });
 
-
-// ============ CREATE ITEM CARD ==============
 function createItemCard(item, index) {
   const { name, amount, exp, imgDataUrl, notes, unit, location, owner } = item;
   const card = document.createElement('div');
@@ -165,8 +161,6 @@ function formatDate(d) {
   }
 }
 
-
-// ============ DELETE CONFIRMATION MODAL ==============
 const deleteModal = document.getElementById('deleteModal');
 const deleteConfirm = document.getElementById('deleteConfirm');
 const deleteCancel = document.getElementById('deleteCancel');
@@ -194,7 +188,6 @@ function closeDeleteModal() {
   deleteTarget = null;
 }
 
-// ============ UPDATE LOCATION & OWNER SELECTS ==============
 function updateLocationSelect() {
   const select = locationFilter;
   const all = new Set(['All Locations']);
@@ -220,9 +213,6 @@ function updateOwnerSelect() {
     select.appendChild(o);
   });
 }
-
-
-// ============ FORM SUBMISSION ==============
 itemForm.addEventListener('submit', async (ev) => {
   ev.preventDefault();
 
@@ -329,7 +319,7 @@ function closeRestockModal() {
   smartRestockModal.setAttribute('aria-hidden', 'true');
 }
 
-//screen 2:................................
+//screen 2:.
 function handleRestockSelection(event) {
   event.preventDefault(); // stop page reload
 
@@ -389,9 +379,6 @@ function handleRestockConfirmation(event) {
   // Close modal after submitting
   closeRestockModal();
 }
-
-
-// ============ FILTERS & SORTING ==============
 function getFilteredAndSortedItems() {
   const locVal = locationFilter.value.trim() || 'All Locations';
   const ownerVal = ownerFilter.value.trim() || 'All Owners';
@@ -419,8 +406,6 @@ filterToggleBtn.addEventListener('click', () => {
   filterPanel.classList.toggle('open');
 });
 
-
-// ============ RENDER FUNCTION ==============
 function renderFridge() {
   fridge.innerHTML = '';
   getFilteredAndSortedItems().forEach((item, i) =>
@@ -455,7 +440,6 @@ document.addEventListener("focusout", (e) => {
   }
 });
 
-// ============ INIT DEFAULT ITEMS ==============
 // fridgeItems = [
 //   { name: 'Milk', amount: 1, exp: '2025-11-10', imgDataUrl: '', notes: '2%', unit: 'carton', location: 'Fridge', owner: 'Alex' },
 //   { name: 'Apples', amount: 6, exp: '2025-12-05', imgDataUrl: '', notes: 'Green', unit: 'pcs', location: 'Pantry', owner: 'Jordan' }

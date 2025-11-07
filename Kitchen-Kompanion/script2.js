@@ -3,7 +3,7 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>\"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 }
 
-/* === Recipes feature ===
+/*
    - Persisted in localStorage key 'kk_recipes'
    - Add/Edit/Delete recipes
    - Collapsed card shows image or name, click to expand to show ingredients & procedures

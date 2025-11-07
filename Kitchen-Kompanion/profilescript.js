@@ -1,9 +1,17 @@
 // Load from localStorage or use default hardcoded members
-let householdMembers = JSON.parse(localStorage.getItem("householdMembers")) || [
-  { name: "Dad", allergies: ["Peanuts"], preferences: [], otherAllergies: "", otherPrefs: "" },
-  { name: "Mom", allergies: [], preferences: ["Vegetarian"], otherAllergies: "", otherPrefs: "" },
-  { name: "Emma", allergies: ["Shellfish"], preferences: ["Gluten-Free"], otherAllergies: "", otherPrefs: "" }
-];
+let householdMembers = JSON.parse(localStorage.getItem("householdMembers")) || [];
+
+// If no members exist yet, create a default profile
+if (householdMembers.length === 0) {
+  householdMembers.push({
+    name: "My Profile",
+    allergies: [],
+    preferences: [],
+    otherAllergies: "",
+    otherPrefs: ""
+  });
+  localStorage.setItem("householdMembers", JSON.stringify(householdMembers));
+}
 
 const memberList = document.getElementById('memberList');
 const profileForm = document.getElementById('profileForm');
@@ -14,7 +22,6 @@ let selectedIndex = null;
 function saveMembers() {
   localStorage.setItem("householdMembers", JSON.stringify(householdMembers));
 }
-
 // Modal handlers – Add member
 document.getElementById('addMemberBtn').addEventListener('click', () => {
   document.getElementById('memberModal').style.display = 'flex';
@@ -142,7 +149,7 @@ if (closeProfileFormBtn) {
   });
 }
 
-// --- Fake keyboard behavior for text inputs / textareas ---
+// Fake keyboard behavior for text inputs / textareas
 const fakeKeyboard = document.getElementById('fakeKeyboard');
 
 document.addEventListener('focusin', (e) => {
