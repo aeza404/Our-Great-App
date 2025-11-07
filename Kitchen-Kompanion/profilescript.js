@@ -9,7 +9,6 @@ const memberList = document.getElementById('memberList');
 const profileForm = document.getElementById('profileForm');
 const profileHeader = document.getElementById('profileHeader');
 let selectedIndex = null;
-
 // Save to localStorage helper
 function saveMembers() {
   localStorage.setItem("householdMembers", JSON.stringify(householdMembers));
