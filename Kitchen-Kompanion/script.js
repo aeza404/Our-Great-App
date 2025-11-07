@@ -272,6 +272,15 @@ function fileToDataUrl(file) {
 
 
 //Restock Button stuff start here 
+
+function getLowItems() {
+  return fridgeItems
+    .filter(item => item.amount <= 2) // define "low" threshold here
+    .map(item => ({
+      name: item.name,
+      amount: item.amount
+    }));
+}
 //4 screens
 //screen 1:
 // SMART RESTOCK FLOW
@@ -299,6 +308,8 @@ smartRestockBtn.addEventListener('click', () => {
 });
 
 function showRestockScreen1() {
+   const lowItems = getLowItems(); // dynamically get low items
+
   smartRestockModal.setAttribute('aria-hidden', 'false');
   smartRestockModal.style.display = 'flex';
 
