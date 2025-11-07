@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Kitchen Kompanion</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="recipe.css?v=20251107">
 </head>
 
 <body>
@@ -84,31 +84,27 @@
                 <h2 id="recipeFormTitle">Add / Edit Recipe</h2>
                 <form id="recipeForm">
                     <input type="hidden" name="editIndex" value="">
-                    <label>Recipe name
-                        <input type="text" name="name" required>
-                    </label>
+                    <label for="name">Recipe name</label>
+                    <input id="name" type="text" name="name" required>
 
-                    <label>Image URL (optional)
-                        <input type="text" name="image" placeholder="https://...">
-                    </label>
+                    <label for="image">Image URL (optional)</label>
+                    <input id="image" type="text" name="image" placeholder="https://...">
 
-                    <label>Servings
-                        <input type="number" name="servings" min="1" value="1" style="width:6rem">
-                    </label>
+                    <label for="servings">Servings</label>
+                    <input id="servings" type="number" name="servings" min="1" value="1" style="width:6rem">
 
                     <div id="ingredientsEditor">
                         <label>Ingredients</label>
                         <div id="ingredientsContainer"></div>
-                        <button type="button" id="addIngredientBtn" class="btn ghost" style="margin-top:0.5rem">+ Add ingredient</button>
+                        <button type="button" id="addIngredientBtn" class="btn primary" style="margin-top:0.5rem">+ Add ingredient</button>
                     </div>
 
-                    <label>Procedures / Notes
-                        <textarea name="procedures" rows="5"></textarea>
-                    </label>
+                    <label for="procedures">Procedures / Notes</label>
+                    <textarea id="procedures" name="procedures" rows="5" placeholder="Add procedures here"></textarea>
 
                     <div class="modal-foot">
                         <button type="button" id="cancelRecipeBtn" class="btn ghost">Cancel</button>
-                        <button type="submit" class="btn">Save</button>
+                        <button type="submit" class="btn primary">Save</button>
                     </div>
                 </form>
             </div>
@@ -132,10 +128,6 @@
         </div>
     </div>
 </div>
-
-
-        <button id="myButton">Contact Us</button>
-        <script src="script2.js"></script>
         <script src="recipeScript.js"></script>
 </body>
 

@@ -1,1 +1,528 @@
-/* idk */
+   body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: rgb(150, 195, 187);
+    padding-right: 29px;
+    width: 870px;
+    margin: 0 auto; 
+    position: relative; /* for positioning child elements */
+  }  
+  
+  /* Bottom navigation bar */
+  .navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: space-around; /* items spread evenly */
+    align-items: center; /* makes each item fill full height */
+    background-color: rgb(101, 162, 174);
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+    padding: 0; /* remove default padding so spacing is consistent */
+  }
+  
+  /* Each link takes equal space */
+  .navigation a {
+    flex: 1; /* each link is equal width */
+    text-decoration: none;
+    font-size: 27px;
+    color: black;
+    font-weight: bold;
+    display: flex; /* so its child div can center nicely */
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* full nav height */
+  }
+  
+  /* Inner div styling */
+  .navigation a div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* fill parent link width */
+    height: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    transition: background-color 0.2s ease;
+  }
+  
+  /* Icon styling */
+  .navigation img {
+    width: 50px;
+    height: 60px;
+    filter: brightness(0) invert(1);
+    margin-top: 22px
+  }
+/* Recipes cards */
+.recipes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Featured (first) recipe styling */
+.recipe-card.featured {
+  width: 100%;
+  padding: 0.75rem;
+}
+.recipe-card.featured .recipe-thumb {
+  height: 260px;
+}
+
+/* Category containers placed below the featured recipe */
+.recipe-category {
+  margin-top: 1rem;
+  padding: 0.5rem 0;
+}
+
+.recipe-category h2 {
+  color: #08353a;
+  font-size: 1.05rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+/* Category bar with clickable boxes */
+#categoryBar {
+  margin-bottom: 0.5rem;
+}
+.cat-box {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: none;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.cat-box.active {
+  background: rgba(255,255,255,0.22);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+.recipe-card.featured .recipe-title strong {
+  font-size: 1.25rem;
+}
+
+/* Non-featured cards smaller */
+.recipe-card:not(.featured) {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+/* Modal styles (ensure recipes page has a centered backdrop/modal). */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: none; /* toggled by JS */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  z-index: 1200;
+}
+
+.modal {
+  /* slightly larger centered popup for add/edit forms */
+  width: min(780px, 92vw);
+  max-width: 920px;
+  max-height: calc(100vh - 64px);
+  background: var(--card, #fff);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 24px 60px rgba(2,6,23,0.28);
+  overflow: auto;
+}
+
+/* Make top-level text inputs in the modal fill available width (name, image) */
+.modal > form > input[type="text"],
+.modal > form > textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  margin-top: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Give extra space between the servings control and the ingredients editor */
+.modal #servings {
+  margin-bottom: 1rem; /* increases gap below servings input */
+}
+
+/* Ensure specific form labels inside the recipe modal stack above their controls */
+.modal label[for="procedures"],
+.modal label[for="name"],
+.modal label[for="image"],
+.modal label[for="servings"] {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Make inputs that are wrapped inside labels stack and fill the modal width
+   (this keeps ingredient rows, which are separate .form-row elements, unchanged) */
+.modal label > input,
+.modal label > textarea,
+.modal label > select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #e6e9ee;
+  margin-top: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Make the ingredients editor and its add button stack vertically */
+#ingredientsEditor {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+#ingredientsEditor > #ingredientsContainer {
+  margin-bottom: 0.5rem;
+}
+#ingredientsEditor > button {
+  display: inline-block;
+}
+
+/* Fullscreen modal used for Add Recipe so it appears as its own screen */
+.modal.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  max-height: none;
+  border-radius: 0;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal.fullscreen .modal-foot {
+  margin-top: auto; /* keep actions at bottom of fullscreen modal */
+}
+
+.recipe-card {
+  /* Recipe boxes: white background for consistency with other pages */
+  background: #ffffff;
+  color: rgb(26, 60, 41);
+  border: 1px solid #000; /* keep visible separation */
+  border-radius: 10px;
+  padding: 0.5rem;
+  box-shadow: 0 8px 18px rgba(2,6,23,0.06);
+  overflow: hidden;
+}
+
+.recipe-header {
+  display: flex;
+  flex-direction: column; /* stack thumbnail above title */
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.recipe-thumb {
+  width: 100%;
+  height: 140px;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  font-weight:700;
+  color: rgb(26, 60, 41);
+  /* darkened background for better contrast when no image */
+  background: #c9c9c9; /* was rgba(0,0,0,0.04) */
+}
+
+.recipe-thumb img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block
+}
+
+.recipe-title {
+  flex:1;
+  margin-top:0.25rem;
+}
+
+/* Larger title in fullscreen */
+.recipe-card.fullscreen .recipe-title {
+  font-size: 1.8rem;
+}
+
+.recipe-details {
+  margin-top:0.6rem;
+  padding-top:0.4rem;
+  border-top:1px solid rgba(0,0,0,0.06);
+}
+
+/* Add spacing in fullscreen mode */
+.recipe-card.fullscreen .recipe-details h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+}
+
+.recipe-card.fullscreen .recipe-thumb {
+  margin-bottom: 1.5rem;
+}
+
+.recipe-card.fullscreen .ingredients-list {
+  margin-bottom: 1.5rem;
+}
+
+.recipe-card.fullscreen .procedures {
+  margin-bottom: 1.5rem;
+}
+
+.recipe-category-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  margin-bottom: 10px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: rgb(26,60,41);
+}
+
+/* Hide details by default; show when .open on card */
+.recipe-card .recipe-details { display: none !important }
+.recipe-card.open .recipe-details { display: block !important }
+
+.ingredients-list{margin:0 0 0.6rem 1rem;color:inherit;font-size:1.3rem}
+.procedures{white-space:pre-wrap;color:inherit;font-size:1.3rem}
+
+/* Larger text in fullscreen */
+.recipe-card.fullscreen .ingredients-list{font-size:1.5rem}
+.recipe-card.fullscreen .procedures{font-size:1.5rem}
+.recipe-card.fullscreen .servings-wrap label{font-size:1.5rem !important}
+
+.recipe-actions{display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.6rem}
+
+/* Buttons inside recipe card should contrast */
+.recipe-card .btn { background: rgba(0,0,0,0.06); color: rgb(26,60,41); box-shadow: none }
+.recipe-card .btn.ghost { background: transparent; color: rgb(26,60,41); border: 1px solid rgba(0,0,0,0.12) }
+
+/* Make the Edit / Delete action buttons in each card white for contrast */
+.recipe-card .recipe-actions .btn,
+.recipe-card .recipe-actions .btn.ghost {
+  background: #ffffff;
+  color: rgb(26,60,41);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+}
+/* Keep Edit (primary) button green inside card actions */
+.recipe-card .recipe-actions .btn.primary {
+  background-color: #4CAF50 !important; /* force Edit to green */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+/* Primary button variant (used for Edit) */
+.btn.primary {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+.btn.small{padding:0.25rem 0.5rem;font-size:0.85rem}
+
+/* Danger button variant (destructive actions) */
+.btn.danger {
+  background-color: #c62828; /* slightly darker red */
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.10);
+}
+
+/* Make Add Recipe button match Contact Us color */
+#addRecipeBtn {
+  /* primary action on recipes page: green CTA */
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* Make Smart Shopping and Filter buttons white with dark text */
+#smartShoppingBtn,
+#filterRecipesBtn {
+  background: #ffffff;
+  color: rgb(26, 60, 41);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+}
+
+/* Global button style — match other pages (profile.css) */
+.btn {
+  border-radius: 999px;
+  margin-bottom: 14px;
+  border: none;
+  padding: 10px 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgb(205, 215, 209);
+  color: rgb(26, 60, 41);
+  cursor: pointer;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: inherit;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Slightly darker variants for cancel/clear/remove controls for better visibility */
+#cancelRecipeBtn,
+#cancelSmartShoppingBtn,
+#clearFiltersBtn {
+  background: rgba(0,0,0,0.08);
+  color: rgb(26,60,41);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+}
+
+.remove-ingredient,
+.btn.remove-ingredient {
+  /* match cancel button styling for consistency */
+  background: rgba(0,0,0,0.08) !important;
+  color: rgb(26,60,41);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.recipe-card.fullscreen {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 300;
+  width: 640px; /* stage width */
+  height: 960px; /* stage height */
+  overflow: auto;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+/* Make the thumbnail fill the top of the fullscreen card */
+
+.recipe-card.fullscreen .recipe-thumb {
+  height: 360px;
+  background: #bdbdbd; /* slightly darker in fullscreen for focus */
+}
+
+/* Make details visible and larger when fullscreen */
+.recipe-card.fullscreen .recipe-details { display: block !important; padding: 0.8rem; }
+
+/* Dim background when fullscreen active */
+body.fullscreen-active::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 250;
+}
+
+/* Close button for fullscreen at top */
+.recipe-card .close-fullscreen {
+  position: static;
+  display: block;
+  margin: 12px 12px 24px auto;    /* spacing at top and bottom */
+  background: #c62828 !important; /* red close button */
+  color: #fff !important;
+  border: none !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Bottom navigation buttons row for fullscreen */
+.recipe-bottom-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  gap: 0.5rem;
+}
+
+/* Previous/Next navigation buttons */
+.recipe-card .nav-prev,
+.recipe-card .nav-next {
+  background: #4CAF50 !important; /* green navigation buttons */
+  color: #fff !important;
+  border: none !important;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+}
+
+.recipe-card .nav-prev:disabled,
+.recipe-card .nav-next:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Ensure internal buttons in fullscreen are readable (exclude the close button) */
+.recipe-card.fullscreen .btn:not(.close-fullscreen) { background: rgba(0,0,0,0.06); color: rgb(26,60,41) }
+
+/* Make the Delete button in card actions light grey */
+.recipe-card .recipe-actions .btn.delete,
+.recipe-card .recipe-actions .btn.delete.ghost {
+  background: rgba(0,0,0,0.08) !important; /* force Delete to light grey */
+  color: rgb(26,60,41) !important;
+  border: 1px solid rgba(0,0,0,0.12) !important;
+}
+
+/* Add a bold black outline to the inline delete confirmation buttons */
+.confirm-delete .btn,
+.confirm-delete .btn.ghost,
+.confirm-delete .btn.danger {
+  border: 2px solid #000 !important; /* clear black outline for Cancel and Delete */
+}
+
+/* ==== Scrollbar (optional aesthetic) ==== */
+main::-webkit-scrollbar {
+  width: 6px;
+}
+main::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+.filter-panel {
+  display: none;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.filter-panel.open {
+  display: flex;
+}
