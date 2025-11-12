@@ -109,8 +109,24 @@ document.getElementById('saveProfileBtn').addEventListener('click', () => {
   member.otherPrefs = document.getElementById('otherPrefs').value.trim();
 
   saveMembers(); // <-- Save after editing
+  
+  // Update currentUser in localStorage if this is the selected user
+  localStorage.setItem("currentUser", JSON.stringify(member));
+  
   profileHeader.textContent = `${member.name}'s Profile`;
   renderMemberList();
+  
+  // Close the profile form after saving
+  profileForm.style.display = 'none';
+  selectedIndex = null;
+  profileHeader.textContent = 'My Profile';
+});
+
+// Close profile form without saving
+document.getElementById('closeProfileFormBtn').addEventListener('click', () => {
+  profileForm.style.display = 'none';
+  selectedIndex = null;
+  profileHeader.textContent = 'My Profile';
 });
 
 // Delete member

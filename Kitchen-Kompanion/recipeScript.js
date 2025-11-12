@@ -90,6 +90,49 @@ function checkRecipeForAllergens(recipe) {
     };
   }
 
+  // Check if recipe matches dietary preferences
+  function checkRecipeForDietaryPreferences(recipe) {
+    const user = getCurrentUser();
+    if (!user || !user.dietaryPreferences || user.dietaryPreferences.length === 0) {
+      return { matches: true, reason: '' };
+    }
+
+    const recipeIngredients = (recipe.ingredients || []).map(ing => 
+      (ing.name || '').toLowerCase()
+    ).join(' ');
+
+    // Define dietary preference restrictions
+    const restrictions = {
+      'Vegetarian': ['meat', 'chicken', 'beef', 'pork', 'fish', 'seafood', 'shrimp', 'bacon', 'ham', 'turkey', 'lamb', 'veal'],
+      'Vegan': ['meat', 'chicken', 'beef', 'pork', 'fish', 'seafood', 'shrimp', 'bacon', 'ham', 'turkey', 'lamb', 'veal', 'milk', 'cheese', 'butter', 'cream', 'egg', 'honey', 'yogurt'],
+      'Gluten-Free': ['wheat', 'flour', 'bread', 'pasta', 'barley', 'rye', 'gluten', 'noodle'],
+      'Dairy-Free': ['milk', 'cheese', 'butter', 'cream', 'yogurt', 'dairy'],
+      'Keto': ['sugar', 'rice', 'potato', 'bread', 'pasta', 'flour', 'corn', 'oat'],
+      'Paleo': ['dairy', 'grain', 'legume', 'bean', 'peanut', 'soy', 'sugar', 'processed'],
+      'Low-Carb': ['sugar', 'rice', 'potato', 'bread', 'pasta', 'flour'],
+      'Halal': ['pork', 'bacon', 'ham', 'alcohol', 'wine', 'beer'],
+      'Kosher': ['pork', 'bacon', 'ham', 'shellfish', 'shrimp', 'lobster', 'crab']
+    };
+
+    // Check each user preference
+    for (const preference of user.dietaryPreferences) {
+      const forbidden = restrictions[preference];
+      if (!forbidden) continue;
+
+      // Check if recipe contains any forbidden ingredients
+      for (const item of forbidden) {
+        if (recipeIngredients.includes(item)) {
+          return { 
+            matches: false, 
+            reason: `Contains ${item} (not suitable for ${preference})` 
+          };
+        }
+      }
+    }
+
+    return { matches: true, reason: '' };
+  }
+
   // Filter button handlers
   filterRecipesBtn.addEventListener('click', () => {
     const isHidden = filterRecipesPanel.style.display === 'none';
@@ -333,14 +376,6 @@ function checkRecipeForAllergens(recipe) {
     const title = document.createElement('div');
     title.className = 'recipe-title';
     title.innerHTML = `<strong>${escapeHtml(recipe.name || 'Untitled')}</strong>`;
-    
-    // Add allergen warning badge if applicable
-    if (!allergenInfo.safe) {
-      const warning = document.createElement('span');
-      warning.style.cssText = 'background:#ff4444;color:white;padding:2px 8px;border-radius:4px;font-size:0.75rem;margin-left:8px;';
-      warning.textContent = '⚠️ Contains Allergens';
-      title.appendChild(warning);
-    }
 
     header.appendChild(thumb);
     header.appendChild(title);
@@ -348,19 +383,6 @@ function checkRecipeForAllergens(recipe) {
 
     const details = document.createElement('div');
     details.className = 'recipe-details';
-
-    // Allergen warning in details
-    if (!allergenInfo.safe) {
-      const allergenWarning = document.createElement('div');
-      allergenWarning.style.cssText = 'background:#fff3cd;border:1px solid #ffc107;padding:0.75rem;border-radius:4px;margin-bottom:1rem;';
-      allergenWarning.innerHTML = `<strong style="color:#856404;">⚠️ Warning:</strong> Contains ${allergenInfo.foundAllergens.join(', ')}`;
-      details.appendChild(allergenWarning);
-    }
-
-    //everything below this comment in this card wasnt changed
-
-    // const details = document.createElement('div');
-    // details.className = 'recipe-details';
 
     // Ingredients
     const ingH = document.createElement('h3'); ingH.textContent = 'Ingredients';
@@ -640,7 +662,8 @@ function checkRecipeForAllergens(recipe) {
 
     recipes.forEach((r, i) => {
       const allergenInfo = checkRecipeForAllergens(r);
-      const recipeData = { recipe: r, index: i, allergenInfo };
+      const dietaryInfo = checkRecipeForDietaryPreferences(r);
+      const recipeData = { recipe: r, index: i, allergenInfo, dietaryInfo };
       
       if (allergenInfo.safe) {
         safeRecipes.push(recipeData);
@@ -653,7 +676,11 @@ function checkRecipeForAllergens(recipe) {
     let recipesToShow = [...safeRecipes, ...unsafeRecipes];
     
     if (activeFilters.allergies) {
-      recipesToShow = safeRecipes; // Only show safe recipes
+      recipesToShow = recipesToShow.filter(r => r.allergenInfo.safe);
+    }
+
+    if (activeFilters.preferences) {
+      recipesToShow = recipesToShow.filter(r => r.dietaryInfo.matches);
     }
 
     if (recipesToShow.length === 0) {
@@ -669,26 +696,9 @@ function checkRecipeForAllergens(recipe) {
       recipesList.appendChild(createRecipeCard(recipe, index, allergenInfo));
     });
 
-    
-// Seperator for unsafe recipes
-    if (unsafeToShow.length > 0 && !activeFilters.allergies) {
-      const separator = document.createElement('div');
-      separator.style.cssText = 'grid-column: 1 / -1; margin:2rem 0 1rem; padding:1rem; background:#fff3cd; border-left:4px solid #ff4444; border-radius:8px;';
-      separator.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;">
-          <span style="font-size:1.5rem;">⚠️</span>
-          <h3 style="color:#856404;font-size:1.3rem;margin:0;font-weight:600;">
-            Recipes Containing Allergens
-          </h3>
-          <span style="font-size:1.5rem;">⚠️</span>
-        </div>
-      `;
-      recipesList.appendChild(separator);
-
-      unsafeToShow.forEach(({ recipe, index, allergenInfo }) => {
-        recipesList.appendChild(createRecipeCard(recipe, index, allergenInfo));
-      });
-    }
+    unsafeToShow.forEach(({ recipe, index, allergenInfo }) => {
+      recipesList.appendChild(createRecipeCard(recipe, index, allergenInfo));
+    });
   }
 
   // seed a demo recipe if none exist (safe, local only)

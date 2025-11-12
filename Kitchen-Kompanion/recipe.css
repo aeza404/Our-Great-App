@@ -22,6 +22,7 @@
     background-color: rgb(101, 162, 174);
     box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
     padding: 0; /* remove default padding so spacing is consistent */
+    z-index: 1000; /* Keep navigation in front of all content */
   }
   
   /* Each link takes equal space */
@@ -419,9 +420,9 @@
   transform: translateX(-50%);
   z-index: 300;
   /* Responsive sizing so it truly centers on all screens */
-  width: 92vw;
-  max-width: 960px; /* was 800px */
-  max-height: 84vh; /* fits below 12% top offset */
+  width: 88vw;
+  max-width: 860px; /* Reduced from 960px */
+  max-height: 72vh; /* Reduced from 76vh to ensure buttons visible */
   overflow: auto;
   border-radius: 12px;
   padding: 1.25rem;
@@ -549,6 +550,8 @@ main::-webkit-scrollbar-thumb {
   flex-direction: column;
   padding: 28px 28px 28px;
   margin-bottom: 160px; /* space for nav */
+  height: calc(100vh - 215px); /* Fixed height: full viewport minus margins and nav */
+  overflow: hidden; /* Prevent page itself from scrolling */
 }
 
 
