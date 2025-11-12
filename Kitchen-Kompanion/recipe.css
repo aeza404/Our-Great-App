@@ -412,23 +412,27 @@
 }
 
 .recipe-card.fullscreen {
+  /* Anchor the fullscreen card slightly below the top of the screen */
   position: fixed;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 12%;
+  transform: translateX(-50%);
   z-index: 300;
-  width: 640px; /* stage width */
-  height: 960px; /* stage height */
+  /* Responsive sizing so it truly centers on all screens */
+  width: 92vw;
+  max-width: 960px; /* was 800px */
+  max-height: 84vh; /* fits below 12% top offset */
   overflow: auto;
-  border-radius: 6px;
-  padding: 1rem;
+  border-radius: 12px;
+  padding: 1.25rem;
   box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  background: #fff;
 }
 
 /* Make the thumbnail fill the top of the fullscreen card */
 
 .recipe-card.fullscreen .recipe-thumb {
-  height: 360px;
+  height: 400px; /* was 360px */
   background: #bdbdbd; /* slightly darker in fullscreen for focus */
 }
 
@@ -436,12 +440,14 @@
 .recipe-card.fullscreen .recipe-details { display: block !important; padding: 0.8rem; }
 
 /* Dim background when fullscreen active */
+/* Remove the dimmed overlay when a recipe is fullscreen */
 body.fullscreen-active::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 250;
+  content: none !important;
+}
+
+/* Prevent background from scrolling when a recipe is fullscreen */
+body.fullscreen-active {
+  overflow: hidden;
 }
 
 /* Close button for fullscreen at top */
@@ -468,6 +474,11 @@ body.fullscreen-active::before {
   padding-top: 1rem;
   border-top: 1px solid rgba(0,0,0,0.12);
   gap: 0.5rem;
+}
+
+/* Safety: never show Prev/Next row unless the card is actually fullscreen */
+.recipe-card:not(.fullscreen) .recipe-bottom-nav {
+  display: none !important;
 }
 
 /* Previous/Next navigation buttons */
@@ -547,9 +558,7 @@ main::-webkit-scrollbar-thumb {
   pointer-events: auto !important;
 }
 
-body.fullscreen-active::before {
-  pointer-events: none !important;
-}
+/* No overlay element present anymore */
 
 .page header {
   display: flex;

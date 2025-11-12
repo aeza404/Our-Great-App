@@ -120,6 +120,8 @@ function checkRecipeForAllergens(recipe) {
       el.classList.remove('open');
       const closeBtn = el.querySelector('.close-fullscreen');
       if (closeBtn) closeBtn.remove();
+      const bottomNav = el.querySelector('.recipe-bottom-nav');
+      if (bottomNav) bottomNav.remove();
     });
     // remember where focus was
     _lastFocusedElement = document.activeElement;
@@ -189,6 +191,8 @@ function checkRecipeForAllergens(recipe) {
       el.classList.remove('open');
       const closeBtn = el.querySelector('.close-fullscreen');
       if (closeBtn) closeBtn.remove();
+      const bottomNav = el.querySelector('.recipe-bottom-nav');
+      if (bottomNav) bottomNav.remove();
     });
 
     // cleanup form
@@ -588,6 +592,8 @@ function checkRecipeForAllergens(recipe) {
           el.classList.remove('open');
           const closeBtn = el.querySelector('.close-fullscreen');
           if (closeBtn) closeBtn.remove();
+          const bottomNav = el.querySelector('.recipe-bottom-nav');
+          if (bottomNav) bottomNav.remove();
         });
 
         recipes.splice(index, 1);
