@@ -396,11 +396,17 @@ function checkRecipeForAllergens(recipe) {
   servingsLabel.style.fontSize = '1.3rem';
   servingsLabel.style.fontWeight = 'bold';
   const servingsInput = document.createElement('input');
-  servingsInput.type = 'number'; servingsInput.min = 1; servingsInput.value = recipe.servings || 1; servingsInput.style.width = '5rem';
+  servingsInput.type = 'number'; servingsInput.min = 1; servingsInput.value = recipe.servings || 1; servingsInput.style.width = '7rem';
+  servingsInput.style.fontSize = '1.3rem';
+  servingsInput.style.padding = '0.7rem 1.2rem';
   servingsLabel.appendChild(servingsInput);
   servingsWrap.appendChild(servingsLabel);
 
   details.appendChild(servingsWrap);
+  // Add extra space below servings control for visual separation from delete confirmation
+  const servingsSpacer = document.createElement('div');
+  servingsSpacer.style.height = '1.5rem';
+  details.appendChild(servingsSpacer);
 
   // actions
     const actions = document.createElement('div'); actions.className = 'recipe-actions';
@@ -554,20 +560,28 @@ function checkRecipeForAllergens(recipe) {
       // inline confirmation UI
       const confirmWrap = document.createElement('div');
       confirmWrap.className = 'confirm-delete';
-      confirmWrap.style.cssText = 'margin-top:0.5rem;padding:0.5rem;border:1px solid rgba(0,0,0,0.12);border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;';
+  confirmWrap.style.cssText = 'margin-top:0.8rem;padding:1rem 1.5rem;border:2px solid rgba(0,0,0,0.18);border-radius:12px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;';
       const txt = document.createElement('span');
-      txt.textContent = 'Click "Delete" to permanently delete this recipe?';
+  txt.textContent = 'Click "Delete" to permanently delete this recipe?';
+  txt.style.fontSize = '1.5rem';
+  txt.style.fontWeight = 'bold';
+  txt.style.textAlign = 'center';
+  txt.style.marginBottom = '1rem';
       const btns = document.createElement('div');
-      btns.style.display = 'flex';
-      btns.style.gap = '0.5rem';
+  btns.style.display = 'flex';
+  btns.style.gap = '1.2rem';
       const cancelBtn = document.createElement('button');
       cancelBtn.type = 'button';
-      cancelBtn.className = 'btn ghost small';
-      cancelBtn.textContent = 'Cancel';
+  cancelBtn.className = 'btn ghost';
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.style.fontSize = '1.1rem';
+  cancelBtn.style.padding = '0.7rem 1.5rem';
       const confirmBtn = document.createElement('button');
       confirmBtn.type = 'button';
-      confirmBtn.className = 'btn danger small';
-      confirmBtn.textContent = 'Delete';
+  confirmBtn.className = 'btn danger';
+  confirmBtn.textContent = 'Delete';
+  confirmBtn.style.fontSize = '1.1rem';
+  confirmBtn.style.padding = '0.7rem 1.5rem';
       btns.appendChild(cancelBtn);
       btns.appendChild(confirmBtn);
       confirmWrap.appendChild(txt);
